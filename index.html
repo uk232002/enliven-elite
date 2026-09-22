@@ -1,0 +1,3100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- A REFRESH STARTS AT THE TOP. By default the browser remembers how far
+       down you were and jumps back there on reload - which on this page lands
+       you in the middle of a pinned, scroll-driven 3D sequence with every
+       animation computed from the wrong starting point. Run first, before any
+       other script, because the browser applies its restore early.
+
+       Only a RELOAD is sent to the top. A link that deliberately points at a
+       section (a shared #contact, say) still arrives at that section. -->
+  <script>
+    (function () {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      window.__freshStart = !location.hash || (nav && nav.type === 'reload');
+      if (nav && nav.type === 'reload' && location.hash) {
+        // The nav links leave #services and friends in the address bar; a
+        // refresh would otherwise jump straight back to them.
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+      if (window.__freshStart) window.scrollTo(0, 0);
+    })();
+  </script>
+  <title>ENLIVEN ELITE | Architects &amp; Interior Designers, Bengaluru</title>
+  <meta name="description" content="Bespoke architecture, interior design and construction studio in Banashankari, Bengaluru. See our homes, kitchens and interiors, and book a free consultation.">
+  <link rel="canonical" href="https://uk232002.github.io/enliven-elite/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#050507">
+  <meta name="author" content="ENLIVEN ELITE">
+
+  <!-- Icons: favicon.ico for old browsers and the address bar, PNGs for
+       everything newer, and the manifest for Android home screens. Made from
+       the logo by tools/make_icons.py. -->
+  <link rel="icon" href="./favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="manifest" href="./site.webmanifest">
+
+  <!-- Social preview: what WhatsApp, LinkedIn, Facebook and X show when the
+       link is shared. Absolute URLs, because a crawler has no page to resolve
+       a relative one against. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ENLIVEN ELITE">
+  <meta property="og:title" content="ENLIVEN ELITE | Architects &amp; Interior Designers, Bengaluru">
+  <meta property="og:description" content="Bespoke architecture, interiors and construction from one studio in Bengaluru. Book a free consultation.">
+  <meta property="og:url" content="https://uk232002.github.io/enliven-elite/">
+  <meta property="og:image" content="https://uk232002.github.io/enliven-elite/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ENLIVEN ELITE — architecture, interiors and exteriors studio in Bengaluru">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ENLIVEN ELITE | Architects &amp; Interior Designers, Bengaluru">
+  <meta name="twitter:description" content="Bespoke architecture, interiors and construction from one studio in Bengaluru. Book a free consultation.">
+  <meta name="twitter:image" content="https://uk232002.github.io/enliven-elite/og-image.jpg">
+
+  <!-- Who and where, for search engines' local results. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": "https://uk232002.github.io/enliven-elite/#studio",
+    "name": "ENLIVEN ELITE",
+    "description": "Bespoke architecture, interior design, product design, environmental design and construction studio in Bengaluru.",
+    "url": "https://uk232002.github.io/enliven-elite/",
+    "logo": "https://uk232002.github.io/enliven-elite/icons/android-chrome-512x512.png",
+    "image": "https://uk232002.github.io/enliven-elite/og-image.jpg",
+    "telephone": "+91-9686121676",
+    "email": "info@enlivenelite.in",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "1621, 15th Main, 35th Cross Road, Banashankari",
+      "addressLocality": "Bengaluru",
+      "addressRegion": "Karnataka",
+      "postalCode": "560070",
+      "addressCountry": "IN"
+    },
+    "hasMap": "https://maps.app.goo.gl/15tj7BdFtYfa2iUc9",
+    "areaServed": { "@type": "City", "name": "Bengaluru" },
+    "founder": { "@type": "Person", "name": "Nihas R Prasad" },
+    "knowsAbout": ["Architecture", "Interior design", "Product design", "Environmental design", "Construction"]
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Geist+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- importmap for the ES-module Three.js logo loader (must precede any type="module" scripts) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":         "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+
+  <!-- GSAP + ScrollTrigger. Loaded for the whole site and married to Lenis in
+       App() below, so scroll-driven work anywhere on the page reads a position
+       that has already been smoothed rather than fighting it. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@1.47.0/dist/umd/lucide.min.js" defer></script>
+
+  <!-- React 18 & Babel Standalone -->
+  <!-- Production builds, not development. The dev builds ship every propType
+       check, warning path and DevTools hook, and this page mounts a dozen
+       components that each run work on every animation frame — it was paying
+       that tax sixty times a second. -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin defer></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin defer></script>
+
+  <!-- Dark Architectural Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=11037e0509">
+
+  <!-- Cookie consent + analytics (loads nothing from Google until accepted) -->
+  <script src="./consent.js?v=2befb8f297" defer></script>
+  <script>window.__EE_STATIC_HOST = true;</script>
+</head>
+<body class="loading-active">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     LOGO LOADING SCREEN — 3D extruded logo spins twice, then reveals site
+════════════════════════════════════════════════════════════════════════ -->
+<div id="loader">
+  <!-- The stage image split into its two beams so each can be struck
+       separately; screen-blended over black they recombine seamlessly. -->
+  <div class="loader-beam" id="loader-beam-l"></div>
+  <div class="loader-beam" id="loader-beam-r"></div>
+  <!-- The mark is TWO copies of the logo, and that is what lets it animate
+       smoothly. It used to be one image whose brightness was rewritten every
+       frame from script - which meant the animation ran on the same thread
+       that is busy building the site, and froze whenever that was busy.
+       A black silhouette underneath and the real logo fading in over it gives
+       the identical "lit out of the dark" result using only opacity, which the
+       browser can animate on its own without waiting for anything. -->
+  <div class="loader-mark">
+    <img class="loader-mark-dark" src="./enliven-logo.webp" alt="" aria-hidden="true" />
+    <img id="loader-logo" class="loader-mark-lit" src="./enliven-logo.webp" alt="ENLIVEN ELITE" />
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     MAIN SITE
+════════════════════════════════════════════════════════════════════════ -->
+
+<div class="grid-bg-overlay"></div>
+<div class="grid-vignette"></div>
+<!-- Light theme only: fades the very top of the document up out of black and
+     the very bottom back down into it, leaving everything between untouched.
+     Spans the whole document (absolute, not fixed) so the fade is anchored to
+     the page's ends rather than the viewport's. -->
+<div class="page-fade-edges" aria-hidden="true"></div>
+
+<!-- Background animated floor-plan loop (subtle watermark) -->
+<video class="bg-floorplan-video" autoplay loop muted playsinline preload="auto">
+  <source src="./animations/Animating_floor_plan_with_rose_202608171825.mp4" type="video/mp4">
+</video>
+
+<!-- React Application Root -->
+<div id="root"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     REACT APP — Navbar, Hero, Editorial Slides, Projects, Contact, Modal
+════════════════════════════════════════════════════════════════════════ -->
+<!-- The app: compiled from this block of the source index.html by tools/build.mjs -->
+
+<!-- nav-photos.b64.js sets window.NAV_PHOTO_B64 (embedded, not fetched) — the
+     same file:// texture-loading fix as the GLB above, for the nav-box and
+     featured-cube photos. -->
+<script src="./nav-photos.b64.js?v=ead7585312" defer></script>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     LOGO LOADER — the two stage lights strike one after the other, the mark
+     comes up out of the dark as they land on it, it turns once, then the
+     loader lifts away. Rotation keeps the previous speed exactly: that was
+     two turns over 5s, so one turn is 2.5s on the same easing curve.
+     Plain CSS transforms on an <img> — no Three.js, no GLB, no CDN decoder.
+════════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  var loaderEl = document.getElementById('loader');
+  var logoEl = document.getElementById('loader-logo');
+  if (!loaderEl) return;
+
+  /* WHY THIS IS NOW ALMOST NOTHING.
+
+     The animation used to be a requestAnimationFrame loop writing opacity,
+     filter and transform on every frame. Measured over its 4.2 seconds, the
+     main thread was blocked 7 times for 1,633 ms in total - compiling the site,
+     parsing 633 KB of embedded photographs, starting Three.js - with the worst
+     single freeze, 395 ms, landing exactly as the logo came up out of the dark
+     and another, 342 ms, in the middle of the spin. A frame loop cannot run
+     while its thread is busy, so the logo stopped dead and then jumped to where
+     it should have been by then. That is the lag.
+
+     So the whole sequence is CSS keyframes now, on transform and opacity only -
+     the two properties a browser animates on its compositor thread, which
+     carries on smoothly however busy the page is. This script only starts it
+     and decides when to lift it away. */
+
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // How long the sequence takes to play through - the last keyframe ends at
+  // 4.2 s (a 2.5 s turn starting at 1.7 s). Shortened for reduced motion.
+  var PLAYS_FOR = reduced ? 700 : 4200;
+
+  var played = false, ready = !!window.__siteReady, exiting = false;
+
+  function exit() {
+    if (exiting) return;
+    exiting = true;
+    document.body.classList.remove('loading-active');
+    loaderEl.addEventListener('transitionend', function () {
+      loaderEl.style.display = 'none';
+    }, { once: true });
+    // A frame first, so the lift starts as its own clean change rather than
+    // being folded into whatever the page is doing this instant.
+    requestAnimationFrame(function () { loaderEl.classList.add('exit'); });
+    setTimeout(function () { loaderEl.style.display = 'none'; }, 1600);
+  }
+
+  /* LIFTED WHEN BOTH ARE TRUE: it has played, and the site behind it has
+     actually rendered. It used to leave at a fixed moment regardless, and the
+     long tasks above run past it - so the curtain could go up on a page still
+     being assembled, and the reveal itself would stutter. */
+  function maybeExit() { if (played && ready) exit(); }
+
+  function play() {
+    loaderEl.classList.add('play');
+    setTimeout(function () { played = true; maybeExit(); }, PLAYS_FOR);
+  }
+
+  window.addEventListener('site:ready', function () { ready = true; maybeExit(); }, { once: true });
+
+  // Started once the logo can actually be painted, so the first frame is the
+  // mark in the dark rather than an empty box. decode() does the decoding off
+  // the main thread, which is the other reason to prefer it over 'load'.
+  if (logoEl && logoEl.decode) {
+    logoEl.decode().then(play, play);
+  } else if (logoEl && !logoEl.complete) {
+    logoEl.addEventListener('load', play, { once: true });
+    logoEl.addEventListener('error', play, { once: true });
+  } else {
+    play();
+  }
+
+  // Never let a loading screen trap a visitor, whatever else happens.
+  setTimeout(exit, 9500);
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     FLOATING 3D NAV BOXES — four lit, mouse-reactive Three.js boxes that
+     stay invisible until the "Open Letter" section is reached, float at
+     the four screen corners while it's read, then converge into a fixed
+     top navigation row once the reader scrolls past it. Desktop only; the
+     footer's quick links already cover the same destinations on mobile.
+════════════════════════════════════════════════════════════════════════ -->
+<script type="module">
+  import * as THREE from 'three';
+  import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+  import { clone as cloneRig } from 'three/addons/utils/SkeletonUtils.js';
+
+  function initNavBoxes() {
+    const section = document.querySelector('.open-letter-section');
+    // setTimeout, not requestAnimationFrame — rAF can be fully suspended in
+    // a backgrounded tab (e.g. opened in a new tab the reader hasn't
+    // switched to yet), which would strand this retry forever; a timer
+    // still fires (just clamped to ~1s) while hidden.
+    if (!section) { setTimeout(initNavBoxes, 50); return; }
+    if (window.innerWidth < 900) return;
+
+    // Order is load-bearing: each entry is paired by index with MODEL_BUILDERS
+    // and BASE_ROT below, so each label keeps its own model and resting tilt.
+    const NAV_ITEMS = [
+      { label: 'View All Services',      target: '#services' },
+      { label: 'Meet The Architect',     target: '#about' },
+      { label: 'Book A Free Consultation', target: '#contact' },
+      { label: 'Insights & Views',       target: '#insights' }
+    ];
+
+    // The canvas and the dock pill are both position:fixed, so they span the
+    // viewport *excluding* the classic scrollbar — i.e. clientWidth, not
+    // window.innerWidth. Sizing the renderer and doing the screen→world math
+    // off innerWidth instead put every icon a scrollbar-width to the left of
+    // the DOM caption sitting under it (the captions are laid out in real
+    // client coordinates). All the layout math here goes through these so
+    // the 3D icons and their HTML labels land in the same coordinate space.
+    const vpW = () => document.documentElement.clientWidth;
+    const vpH = () => document.documentElement.clientHeight;
+
+    const root = document.createElement('div');
+    root.className = 'nav-boxes-root';
+    document.body.appendChild(root);
+
+    // The visible backdrop the icons dock into — a separate fixed pill from
+    // the brand mark (see .nav-dock-pill), not a slot measured out of it.
+    const dockPill = document.createElement('div');
+    dockPill.className = 'nav-dock-pill';
+    document.body.appendChild(dockPill);
+
+    /* THE MENU. The icons still fly up and converge exactly as before; what
+       changed is that they converge into one collapsed control instead of into
+       a spread row, and the row is what opening it gives back.
+
+       `spread` is eased in the frame loop rather than transitioned in CSS,
+       because the icons are WebGL and their positions have to be interpolated
+       in the same pass that places them - a CSS transition on the pill alone
+       would have the box and its contents arriving at different times. */
+    const menuBtn = document.createElement('button');
+    menuBtn.className = 'nav-menu-btn';
+    menuBtn.type = 'button';
+    menuBtn.setAttribute('aria-label', 'Open navigation');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.innerHTML = '<span></span><span></span><span></span>';
+    document.body.appendChild(menuBtn);
+
+    let menuOpen = false, spread = 0;
+    /* Scroll position when it was opened. The bar squeezes back as soon as the
+       reader moves on, and "moved on" has to be measured from wherever they
+       opened it rather than from an absolute point. */
+    let menuScrollAt = 0;
+    function setMenu(open) {
+      menuOpen = open;
+      if (open) menuScrollAt = window.scrollY;
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    }
+    menuBtn.addEventListener('click', () => setMenu(!menuOpen));
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
+    /* WHERE THE POINTER IS, in viewport pixels. This is what replaces the
+       close button: the row is open while the reader is at it and squeezes
+       back when they are not. Tracked rather than done with :hover because the
+       four icons are WebGL - there is no element under the cursor to hover,
+       only a canvas, so the bar has to test the geometry itself. */
+    let ptrX = -1e4, ptrY = -1e4, ptrSeen = false;
+    addEventListener('pointermove', (e) => {
+      ptrX = e.clientX; ptrY = e.clientY; ptrSeen = true;
+    }, { passive: true });
+    /* Slop around the bar, so grazing an edge on the way to an icon does not
+       snap it shut under the cursor. */
+    const MENU_SLOP = 34;
+    // And how far the page has to move before it counts as scrolling on.
+    const MENU_SCROLL_SHUT = 48;
+
+    /* Collapsed footprint. Square, so the pill's own pill-radius renders it as
+       a true circle rather than a lozenge. */
+    const MENU_W = 42, MENU_H = 42;
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'nav-boxes-canvas';
+    root.appendChild(canvas);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    // A narrower FOV + greater distance (vs. a wide-angle close-up) keeps the
+    // same on-screen framing but flattens perspective distortion — a tilted
+    // box near the screen edge no longer balloons outward and clip the frame.
+    const camera = new THREE.PerspectiveCamera(28, vpW() / vpH(), 0.1, 200);
+    camera.position.z = 20.5;
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1006, 1.6));
+    const key = new THREE.DirectionalLight(0xffffff, 1.3); key.position.set(4, 5, 6); scene.add(key);
+    const rim = new THREE.DirectionalLight(0xE0B480, 1.0); rim.position.set(-4, -2, 3); scene.add(rim);
+
+    // Each destination gets its own small built-from-primitives 3D model —
+    // a skyline, a gem, a stack of frames, an envelope — in platinum, with
+    // the visible caption below (see .nav-box-label) carrying the rose-
+    // gold/copper tone. All models share one platinum material so their
+    // opacity can be driven from a single place each frame.
+    // Two finishes, because a pale platinum icon simply disappears against
+    // the light theme's paper ground. WebGL can't read CSS variables, so the
+    // scene listens for the toggle's event and restyles itself.
+    const PLATINUM = 0xD9DCDF;        // dark theme — bright metal on near-black
+    const PLATINUM_LIGHT = 0x6E645A;  // light theme — dark bronze on paper
+    const platinumMat = new THREE.MeshStandardMaterial({ color: PLATINUM, metalness: 0.7, roughness: 0.28, transparent: true });
+    const platinumEdgeMat = new THREE.LineBasicMaterial({ color: PLATINUM, transparent: true, opacity: 0.9 });
+    // The walking figure in the doorway icon needs to fade out on its own as
+    // it steps inside, independently of the group-wide reveal opacity, so it
+    // gets its own copy of the same platinum — identical finish, separately
+    // driveable alpha. Registered in these two lists so the theme swap and
+    // the per-frame opacity write below reach every material without having
+    // to name them one at a time.
+    const manMat = platinumMat.clone();
+    const SOLID_MATS = [platinumMat, manMat];
+    const EDGE_MATS = [platinumEdgeMat];
+    // The two video icons carry their platinum in shader uniforms rather than
+    // in a material colour, and they do not want the same shape of it — one is
+    // a flat tint, one a two-ended duotone. So they register a function rather
+    // than a material. Declared up here with the other two lists because
+    // applyTheme() runs before any model is built.
+    const THEME_HOOKS = [];
+    // Two of the clips are continuous tone rather than line art, and being
+    // unlit they cannot borrow the highlights the modelled icons get from the
+    // scene lights. A single colour scaled by brightness flattened them into
+    // slabs; these are the two ends of the same metal, and their shaders run
+    // the clip's own luminance between them.
+    const METAL = {
+      dark: { ink: 0x3A3D40, lit: 0xEDEFF1 },
+      light: { ink: 0x221D16, lit: 0xA89A87 }
+    };
+    function applyTheme(mode) {
+      const c = mode === 'light' ? PLATINUM_LIGHT : PLATINUM;
+      // Metalness reads as muddy without an environment map on a light
+      // background; dropping it keeps the shapes crisp.
+      const metal = mode === 'light' ? 0.15 : 0.7;
+      SOLID_MATS.forEach((m) => { m.color.setHex(c); m.metalness = metal; });
+      EDGE_MATS.forEach((m) => { m.color.setHex(c); });
+      THEME_HOOKS.forEach((fn) => fn(mode, c));
+    }
+    applyTheme(document.documentElement.dataset.theme);
+    window.addEventListener('ee-theme', (e) => applyTheme(e.detail));
+
+    // Every model normalises itself against this, so all four read as the
+    // same on-screen size however differently they are proportioned.
+    const MODEL_BASE_SIZE = 2.0;
+
+    /* ---- Shared primitives ----------------------------------------------- */
+    // Box plus its own wireframe. The outline is what keeps a shape legible
+    // once an icon shrinks into the 30px dock.
+    function slab(w, h, d, mat, emat) {
+      const geo = new THREE.BoxGeometry(w, h, d);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), emat));
+      return mesh;
+    }
+    function capsule(r, len, mat) {
+      return new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 4, 12), mat);
+    }
+    // Attaches a fresh pivot group at (x, y) - the pattern every joint uses.
+    function joint(parent, x, y) {
+      const g = new THREE.Group();
+      g.position.set(x, y, 0);
+      parent.add(g);
+      return g;
+    }
+
+    /* A whole clip on a plane, captured once and then played out and back.
+
+       PING-PONGING IS THE POINT, and it is what makes this more than a video
+       on a quad. Both clips that use it are complete gestures that end
+       somewhere other than where they began - hands clasped, having started
+       open; a thought fully formed, having started at nothing - so looping
+       either one cuts hard every four seconds. Seeking to a kinder in-point
+       is no fix: both files are a single 96-frame GOP whose only keyframe is
+       at zero, so every seek decodes everything in front of it. So the clip
+       is learned once, straight off the decoder, and then run forward and
+       back off the stored frames. Backwards, a handshake is a handshake
+       releasing and a thought is a thought dispersing - which is the half of
+       each gesture the clip does not contain and a loop needs. After that
+       first pass nothing decodes at all.
+
+       `key` and `tone` are GLSL rather than flags, because the two clips are
+       keyed off completely different things - one a photograph on a cyan
+       sweep, the other a silhouette on black - and a mode switch would have
+       been a worse lie than handing over the line. Both are handed `c` (the
+       frame), `lum` (its luminance) and `vUv`, and return 0-1: coverage for
+       `key`, and position along the metal for `tone`. */
+    const CLIP_FPS = 24;                   // both files: 96 frames / 4.011s
+    const CLIP_FRAMES = 96;
+
+    function pingPongClip(opts) {
+      const root = new THREE.Group();
+      const cr = opts.crop;
+      const sx = cr.x0 * 1280, sy = cr.y0 * 720;
+      const sw = (cr.x1 - cr.x0) * 1280, sh = (cr.y1 - cr.y0) * 720;
+      const cw = opts.cell, ch = Math.round(opts.cell * sh / sw);
+
+      // The one surface the material samples. Each frame it is handed either
+      // the live video (while the clip is still being learned) or one of the
+      // stored frames. The crop happens on the way in, so the texture is the
+      // finished framing and the geometry needs no UV surgery.
+      const stage = document.createElement('canvas');
+      stage.width = cw;
+      stage.height = ch;
+      const paint = stage.getContext('2d');
+      const tex = new THREE.CanvasTexture(stage);
+      tex.generateMipmaps = true;          // the icons dock at 30px
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      // Raw, no decode: the key and tone thresholds below were measured off
+      // the file's own 8-bit values, and this shader adds no colour-space step.
+      tex.colorSpace = THREE.NoColorSpace;
+
+      const video = document.createElement('video');
+      video.src = opts.src;
+      video.loop = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = 'auto';
+
+      const frames = new Array(CLIP_FRAMES).fill(null);
+      let held = 0, learned = false, hasPixels = false, phase = 0;
+
+      let wanted = true;
+      const play = () => {
+        if (!wanted || learned) return;
+        const pr = video.play();
+        if (pr) pr.catch(() => {});
+      };
+      play();
+      ['pointerdown', 'keydown'].forEach((ev) =>
+        window.addEventListener(ev, play, { once: true, passive: true }));
+
+      function keep(mediaTime) {
+        const i = Math.max(0, Math.min(CLIP_FRAMES - 1, Math.round(mediaTime * CLIP_FPS)));
+        if (frames[i]) return;
+        const c = document.createElement('canvas');
+        c.width = cw;
+        c.height = ch;
+        c.getContext('2d').drawImage(video, sx, sy, sw, sh, 0, 0, cw, ch);
+        frames[i] = c;
+        held++;
+        if (held === CLIP_FRAMES) finish(i);
+      }
+
+      // Hand over at the frame that was just on screen, so the switch from
+      // decoder to stored frames is not also a jump cut.
+      function finish(at) {
+        learned = true;
+        phase = at;
+        video.pause();
+      }
+
+      // Fills whatever never turned up from its nearest neighbour. Dropped
+      // frames are rare, but without this one missing index would leave the
+      // icon on the live video - and its hard loop - forever.
+      function patchGaps() {
+        for (let i = 0; i < CLIP_FRAMES; i++) {
+          if (frames[i]) continue;
+          for (let d = 1; d < CLIP_FRAMES; d++) {
+            const a = frames[i - d], b = frames[i + d];
+            if (a || b) { frames[i] = a || b; break; }
+          }
+        }
+        finish(0);
+      }
+
+      /* requestVideoFrameCallback reports the exact media time of the frame
+         it just presented, which is what keeps a stored copy from being half
+         a frame off the index it is filed under. Firefox has none, so there
+         the capture falls back to currentTime inside tick(). */
+      const rvfc = 'requestVideoFrameCallback' in video;
+      if (rvfc) {
+        const onFrame = (now, meta) => {
+          if (learned) return;
+          keep(meta.mediaTime);
+          if (!learned) video.requestVideoFrameCallback(onFrame);
+        };
+        video.requestVideoFrameCallback(onFrame);
+      }
+
+      const mat = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        uniforms: {
+          map: { value: tex },
+          uInk: { value: new THREE.Color(METAL.dark.ink) },
+          uLit: { value: new THREE.Color(METAL.dark.lit) },
+          uOpacity: { value: 0 }
+        },
+        vertexShader: [
+          'varying vec2 vUv;',
+          'void main() {',
+          '  vUv = uv;',
+          '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+          '}'
+        ].join('\n'),
+        fragmentShader: [
+          'uniform sampler2D map;',
+          'uniform vec3 uInk;',
+          'uniform vec3 uLit;',
+          'uniform float uOpacity;',
+          'varying vec2 vUv;',
+          'void main() {',
+          '  vec3 c = texture2D(map, vUv).rgb;',
+          '  float lum = dot(c, vec3(0.2126, 0.7152, 0.0722));',
+          '  float a = (' + opts.key + ') * uOpacity;',
+          '  if (a < 0.004) discard;',
+          '  float t = ' + opts.tone + ';',
+          '  gl_FragColor = vec4(mix(uInk, uLit, t * t * (3.0 - 2.0 * t)), a);',
+          '}'
+        ].join('\n')
+      });
+      THEME_HOOKS.push((mode) => {
+        const m = mode === 'light' ? METAL.light : METAL.dark;
+        mat.uniforms.uInk.value.setHex(m.ink);
+        mat.uniforms.uLit.value.setHex(m.lit);
+      });
+
+      // Off the canvas's own proportions, not the crop's, so rounding ch to a
+      // whole pixel cannot leave the image very slightly stretched.
+      root.add(new THREE.Mesh(
+        new THREE.PlaneGeometry(MODEL_BASE_SIZE, MODEL_BASE_SIZE * ch / cw), mat));
+
+      root.userData.setPlaying = function (on) {
+        wanted = on;
+        if (learned) return;             // nothing left to decode
+        if (on) play(); else video.pause();
+      };
+
+      const SPAN = (CLIP_FRAMES - 1) * 2;  // out and back, landing where it began
+      let lastT = -1, shown = -1, ticks = 0;
+
+      root.userData.tick = function (t, opacity) {
+        // Ticks are handed elapsed time, not a delta.
+        const dt = lastT < 0 ? 0 : Math.min(0.1, Math.max(0, t - lastT));
+        lastT = t;
+
+        if (!learned) {
+          if (video.readyState >= video.HAVE_CURRENT_DATA) {
+            if (!rvfc) keep(video.currentTime);
+            paint.drawImage(video, sx, sy, sw, sh, 0, 0, cw, ch);
+            tex.needsUpdate = true;
+            hasPixels = true;
+          }
+          // Counted in frames the icon was actually visible for, not wall
+          // time: the clip is parked while the icons are hidden, so a clock
+          // would give up on a capture that has simply not been allowed to run.
+          if (++ticks > 900 && held > 0) patchGaps();
+        } else {
+          phase = (phase + dt * CLIP_FPS) % SPAN;
+          const i = Math.round(phase <= CLIP_FRAMES - 1 ? phase : SPAN - phase);
+          if (i !== shown) {
+            paint.drawImage(frames[i], 0, 0);
+            tex.needsUpdate = true;
+            shown = i;
+          }
+        }
+
+        // An unfilled texture samples as opaque black, which both keys read as
+        // subject - the icon would flash a solid platinum slab on the way in.
+        mat.uniforms.uOpacity.value = hasPixels ? opacity : 0;
+      };
+
+      return root;
+    }
+
+    /* ---- The figure -------------------------------------------------------
+       An anatomical body rather than a stack of boxes: tapered torso, round
+       skull, and capsule limbs jointed at the elbow and knee so a walk has a
+       real gait instead of four rigid paddles swinging. Deliberately no
+       EdgesGeometry - wireframe outlining is what made an earlier version read
+       as a robot, and smooth platinum catches the scene lights well enough to
+       hold its shape without it.
+
+       Every segment is a capsule whose top cap is centred on its own joint, so
+       joints read as rounded shoulders and knees rather than as gaps. Feet sit
+       at local y = 0, so a figure is positioned by its footing.
+
+       `mat` is a parameter because this body serves two scenes whose alphas
+       run independently - the doorway fades its walker out as he steps inside,
+       the climber fades at its own loop seam. */
+    const HIP_Y = 0.68, SHOULDER_Y = 1.12;
+    const MAN_TALL = 1.49;      // soles to crown of the built figure
+    function buildManModel(mat) {
+      const g = new THREE.Group();
+
+      const torso = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.175, 0.135, SHOULDER_Y - HIP_Y, 18), mat);
+      torso.position.y = (SHOULDER_Y + HIP_Y) / 2;
+      torso.scale.z = 0.62;
+      g.add(torso);
+
+      const pelvis = new THREE.Mesh(new THREE.SphereGeometry(0.145, 16, 12), mat);
+      pelvis.position.y = HIP_Y;
+      pelvis.scale.set(1, 0.72, 0.66);
+      g.add(pelvis);
+
+      [-1, 1].forEach((sx) => {
+        const d = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 10), mat);
+        d.position.set(sx * 0.172, SHOULDER_Y - 0.02, 0);
+        g.add(d);
+      });
+
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.058, 0.11, 12), mat);
+      neck.position.y = SHOULDER_Y + 0.055;
+      g.add(neck);
+
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.135, 18, 14), mat);
+      head.position.y = 1.34;
+      head.scale.set(0.92, 1.10, 0.98);
+      g.add(head);
+
+      const limbs = {};
+      [-1, 1].forEach((sx) => {
+        const side = sx < 0 ? 'L' : 'R';
+
+        // Arm: shoulder -> elbow -> forearm + hand.
+        const sh = joint(g, sx * 0.175, SHOULDER_Y - 0.02);
+        const upper = capsule(0.05, 0.22, mat);
+        upper.position.y = -0.11;
+        sh.add(upper);
+        const el = joint(sh, 0, -0.27);
+        const fore = capsule(0.042, 0.208, mat);
+        fore.position.y = -0.104;
+        el.add(fore);
+        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 10), mat);
+        hand.position.y = -0.25;
+        hand.scale.set(1, 1.25, 0.7);
+        el.add(hand);
+        limbs['shoulder' + side] = sh;
+        limbs['elbow' + side] = el;
+
+        // Leg: hip -> knee -> shin + foot.
+        const hp = joint(g, sx * 0.085, HIP_Y);
+        const thigh = capsule(0.075, 0.26, mat);
+        thigh.position.y = -0.13;
+        hp.add(thigh);
+        const kn = joint(hp, 0, -0.34);
+        const shin = capsule(0.058, 0.244, mat);
+        shin.position.y = -0.122;
+        kn.add(shin);
+        const foot = new THREE.Mesh(new THREE.BoxGeometry(0.088, 0.052, 0.20), mat);
+        foot.position.set(0, -0.304, 0.045);
+        kn.add(foot);
+        limbs['hip' + side] = hp;
+        limbs['knee' + side] = kn;
+      });
+
+      g.userData.limbs = limbs;
+      return g;
+    }
+
+    /* ---- Slot 0: the doorway ----------------------------------------------
+       A figure walks up to a door, takes the knob, pushes it slowly open with
+       his hand on it the whole way he can reach, lets go and walks in, then it
+       loops. Clickability is unchanged:
+       the invisible .nav-box-btn sits over this exactly as over any other
+       slot, so the whole animation is one big button.
+
+       Modelled around an opening DOOR_W x DOOR_H centred on the origin. The
+       assembly is normalised by an `inner` group rather than by scaling the
+       root, because frame() writes the root's scale every frame to size the
+       icon on screen - anything set there is overwritten. */
+    const DOOR_W = 1.10, DOOR_H = 1.80;   // the opening
+    const JAMB = 0.12, FRAME_Z = 0.16;    // frame stock
+    const OPEN_TOP = DOOR_H / 2, OPEN_BOT = -DOOR_H / 2;
+
+    function buildDoorwayModel() {
+      const root = new THREE.Group();
+      const inner = new THREE.Group();
+      root.add(inner);
+
+      const outerW = DOOR_W + JAMB * 2;
+      const headY = OPEN_TOP + JAMB;                    // top of the frame
+
+      const lintel = slab(outerW, JAMB, FRAME_Z, platinumMat, platinumEdgeMat);
+      lintel.position.y = OPEN_TOP + JAMB / 2;
+      inner.add(lintel);
+
+      const jambH = headY - OPEN_BOT, jambY = (headY + OPEN_BOT) / 2;
+      [-1, 1].forEach((sx) => {
+        const j = slab(JAMB, jambH, FRAME_Z, platinumMat, platinumEdgeMat);
+        j.position.set(sx * (DOOR_W + JAMB) / 2, jambY, 0);
+        inner.add(j);
+      });
+
+      const sill = slab(outerW, 0.06, FRAME_Z, platinumMat, platinumEdgeMat);
+      sill.position.y = OPEN_BOT - 0.03;
+      inner.add(sill);
+
+      // Hinged on the left jamb. The panel is offset inside the pivot so the
+      // pivot sits on the hinge line and a plain rotation.y swings the door
+      // about its true edge.
+      const hinge = new THREE.Group();
+      hinge.position.set(-DOOR_W / 2, 0, 0);
+      inner.add(hinge);
+
+      const panelW = DOOR_W - 0.02;
+      const panel = slab(panelW, DOOR_H - 0.02, 0.07, platinumMat, platinumEdgeMat);
+      panel.position.x = panelW / 2;
+      hinge.add(panel);
+
+      // Where the handle sits with the door shut, in `inner`'s frame — the
+      // hinge is at -DOOR_W/2 and the knob is offset along the panel from
+      // there. The rig is registered against this, so moving the handle moves
+      // where he reaches without anything else needing to be touched.
+      const KNOB = new THREE.Vector3(-DOOR_W / 2 + panelW - 0.14, 0, 0.055);
+      // The same knob in the hinge's own frame, which is the frame it swings in.
+      const KNOB_X = panelW - 0.14;
+
+      [KNOB.z, -KNOB.z].forEach((z) => {
+        const knob = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 10), platinumMat);
+        knob.position.set(KNOB_X, 0, z);
+        hinge.add(knob);
+      });
+
+      const man = buildManModel(manMat);
+      inner.add(man);
+
+      /* The walker is the Mixamo "Open Door Outwards" capture, shipped as
+         services-door.fbx. It replaces the old nihas-walk.glb loop, which was
+         a walk cycle with the door swing invented around it; this one actually
+         reaches for the handle, pushes and steps through, so the door is now
+         driven BY the animation rather than alongside it.
+
+         The export arrived at 19.4 MB, of which 18.6 MB - ninety-six per cent
+         of the file - was one embedded texture. Every nav icon draws in a
+         single flat platinum material, so that image can never be seen here.
+         Stripped of it the file is 793 KB with the mesh, the 65-bone skeleton
+         and the clip all intact. The built figure below stands in until it
+         lands, and permanently over file:// where the fetch is blocked.
+
+         NOTHING BELOW IS A MEASUREMENT OF THIS PARTICULAR CAPTURE. Where the
+         hand lands, which way he walks and when he touches the door are all
+         read back off the rig after it loads (see the calibration block), so
+         swapping in a different clip re-fits itself rather than needing these
+         numbers found again by eye. */
+      const WALKER_URL = './services-door.fbx';
+      let walker = null, walkMixer = null, walkAct = null;
+      let walkDur = 1, uContact = 0.3;
+      // Filled in by the calibration below; drives the stride in the tick.
+      let hipsBone = null, hipsRef = null, rigK = 1, baseX = 0, baseZ = 0;
+      // Step 4 of the calibration: the arm that takes the knob, which of the
+      // two knobs is on his side, and how far the door can turn before the
+      // knob leaves his reach.
+      let upperB = null, foreB = null, handB = null, palmB = null;
+      let knobZ = KNOB.z, sRel = 0.55;
+      // His heading as calibrated, before the door carries him round.
+      let baseRotY = 0;
+      new FBXLoader().load(WALKER_URL, (rig) => {
+        rig.traverse((o) => {
+          if (o.isMesh || o.isSkinnedMesh) {
+            o.material = manMat;
+            // A skinned mesh deforms outside the bounds it was built with, so
+            // leaving this on lets the walk cull the character mid-stride.
+            o.frustumCulled = false;
+          }
+        });
+
+        const w = new THREE.Group();
+        w.add(rig);
+        inner.add(w);
+        walker = w;
+
+        const src = rig.animations && rig.animations[0];
+        if (!src) { man.visible = false; return; }
+
+        /* THE LAST KEYFRAME IS A DUPLICATE OF THE FIRST. Mixamo closes the
+           take by snapping the whole skeleton back to frame 0, so playing the
+           clip as authored puts a one-frame teleport at the end of every
+           cycle - he is mid-stride through the doorway, then instantly back
+           at the start. 64 frames at 30 fps, so 0..63 is the real motion. */
+        const clip = THREE.AnimationUtils.subclip(src, 'door', 0, 63, 30);
+        walkDur = clip.duration;
+        walkMixer = new THREE.AnimationMixer(rig);
+        walkAct = walkMixer.clipAction(clip);
+        walkAct.play();
+
+        /* HEIGHT AND SOLE COME OFF THE POSED SKELETON, not a bounding box.
+           Box3.setFromObject on a skinned mesh reads the geometry in its BIND
+           pose and ignores the skeleton entirely, and this rig is authored
+           with the mesh centred on the origin while the skeleton stands on it
+           - hips at y=1.06 against a box running -0.95..0.95. Trusting the box
+           scaled him about right and then lifted him three quarters of a metre
+           into the air, head through the lintel, feet off the floor. The crown
+           and toe bones are where he actually is. */
+        const crown = rig.getObjectByName('mixamorigHeadTop_End');
+        const toe = rig.getObjectByName('mixamorigLeftToe_End')
+                 || rig.getObjectByName('mixamorigLeftToeBase');
+        if (crown && toe) {
+          walkMixer.setTime(0);
+          rig.updateMatrixWorld(true);
+          const yTop = crown.getWorldPosition(new THREE.Vector3()).y;
+          const ySole = toe.getWorldPosition(new THREE.Vector3()).y;
+          const k = MAN_TALL / ((yTop - ySole) || 1);
+          rig.scale.setScalar(k);
+          rig.position.y = -ySole * k;
+        }
+
+        /* ---- calibration -------------------------------------------------
+           Three things have to agree that the clip knows nothing about: which
+           way he walks, where his hand is, and when it gets there. All three
+           are measured off the rig rather than typed in.
+
+           Order matters. The turn is applied first, because the hand offset
+           has to be computed in the frame he actually ends up in. */
+        const hips = rig.getObjectByName('mixamorigHips');
+        const hand = rig.getObjectByName('mixamorigRightHand');
+
+        // Sample a bone in `inner`'s space at a given moment in the clip.
+        const at = (t, bone) => {
+          walkMixer.setTime(t);
+          inner.updateMatrixWorld(true);
+          return inner.worldToLocal(bone.getWorldPosition(new THREE.Vector3()));
+        };
+
+        const LSh = rig.getObjectByName('mixamorigLeftShoulder');
+        const RSh = rig.getObjectByName('mixamorigRightShoulder');
+
+        if (hips && hand && LSh && RSh) {
+          /* 1 · CONTACT, first, because everything else is measured at it. The
+                frame where the hand reaches furthest from the body is the
+                frame it takes the handle. Measured as distance rather than as
+                an axis, so it does not depend on which way he has been turned
+                - which is the trap the earlier version fell into twice. */
+          let best = -Infinity;
+          for (let i = 0; i <= 40; i++) {
+            const u = i / 40;
+            walkMixer.setTime(u * walkDur);
+            rig.updateMatrixWorld(true);
+            const d = hand.getWorldPosition(new THREE.Vector3())
+                          .sub(hips.getWorldPosition(new THREE.Vector3()));
+            d.y = 0;
+            if (d.length() > best) { best = d.length(); uContact = u; }
+          }
+
+          /* 2 · FACING, from his SHOULDERS at that moment, turned to face the
+                door squarely. Taking it from the travel between the first and
+                last frame instead put him a couple of dozen degrees off and
+                reading side-on, because he is still mid-turn when he reaches:
+                the capture walks him in at one angle and pivots him into the
+                doorway as he pushes. Where he is looking when his hand lands
+                is the thing that has to face the door, not the average of the
+                whole journey. */
+          walkMixer.setTime(uContact * walkDur);
+          rig.updateMatrixWorld(true);
+          const lateral = RSh.getWorldPosition(new THREE.Vector3())
+                             .sub(LSh.getWorldPosition(new THREE.Vector3()))
+                             .setY(0).normalize();
+          const fwd = new THREE.Vector3(0, 1, 0).cross(lateral).normalize();
+          w.rotation.y = Math.PI - Math.atan2(fwd.x, fwd.z);
+          baseRotY = w.rotation.y;
+
+          /* 3 · REGISTRATION, by his BODY rather than his hand. Registering the
+                hand onto the knob looks like the precise choice and is the
+                wrong one: the handle is near the edge of a 1.10 opening and he
+                stands a third of a metre to the side of his own reach, so
+                pinning the hand walks his body out past the jamb. Centring him
+                in the opening, and standing him clear in front of the shut
+                panel, puts his hand near the knob on its own. */
+          const c = at(uContact * walkDur, hips);
+          baseX = w.position.x - c.x;
+          baseZ = w.position.z + 0.22 - c.z;
+          w.position.set(baseX, OPEN_BOT, baseZ);
+
+          // Reference pose for the stride below, in the rig's own units.
+          walkMixer.setTime(uContact * walkDur);
+          hipsBone = hips;
+          hipsRef = hips.position.clone();
+          rigK = rig.scale.x;
+
+          /* 4 · THE HAND ON THE KNOB. The door is no longer only started by his
+                reach; while he holds it his arm is pinned to the knob (see
+                reachFor), so it needs the three arm bones, the palm, which of
+                the two knobs faces him, and how far the panel can swing before
+                that knob is out of his reach - he lets go there and the door
+                carries on alone. All measured with the door and the stride
+                posed exactly as the tick will pose them. */
+          upperB = rig.getObjectByName('mixamorigRightArm');
+          foreB = rig.getObjectByName('mixamorigRightForeArm');
+          handB = hand;
+          palmB = rig.getObjectByName('mixamorigRightHandMiddle1');
+          if (upperB && foreB && palmB) {
+            const clipT = walkDur;
+            const tC = uContact * clipT, tR = Math.min(clipT, (uContact + PUSH_U * LOCK_FRAC) * clipT);
+            const pose = (clipTime, open, carried = 0) => {
+              hinge.rotation.y = SWING_SIGN * 1.75 * open;
+              walkMixer.setTime(Math.min(clipTime, clipT * 0.999));
+              placeWalker(carried);
+              inner.updateMatrixWorld(true);
+            };
+            pose(tC, 0);
+            /* The knob on HIS side of the panel - read from where his body is,
+               not from where his hand is. At the frame he takes it his palm is
+               almost exactly in the plane of the door, so nearest-knob picked
+               the one on the far face and the arm was pulled through the panel
+               to reach it. He stands on the camera side; SWING_SIGN has why the
+               door then swings away from him. */
+            const bodyZ = hinge.worldToLocal(hips.getWorldPosition(new THREE.Vector3())).z;
+            knobZ = bodyZ >= 0 ? KNOB.z : -KNOB.z;
+            /* And the last few centimetres are closed with his FEET, not his
+               arm. The frame he takes the knob is by construction the one where
+               his reach is longest, so the arm is already straight there and a
+               solve can only find another centimetre or two. Registering him by
+               his body (step 3) leaves the palm 8 cm short - so he is stood that
+               much nearer, never more than 12 cm, which keeps him well inside
+               the opening (the step-3 note is about a 33 cm shift). */
+            const pc = inner.worldToLocal(palmPoint(new THREE.Vector3()));
+            const kc = inner.worldToLocal(hinge.localToWorld(gripPoint(new THREE.Vector3())));
+            const shift = kc.sub(pc).setY(0);
+            if (shift.length() > 0.12) shift.setLength(0.12);
+            baseX += shift.x; baseZ += shift.z;
+            pose(tC, 0);
+            /* His leading foot is planted right at the door as he reaches, and
+               the capture's door stood a little further off than ours: the toes
+               went 3 cm into the foot of the shut panel. Stood back just enough
+               to clear its face by 2.5 cm, which also covers the foot shifting
+               as he pushes. */
+            let toeZ = Infinity;
+            const toes = ['mixamorigLeftToe_End', 'mixamorigRightToe_End', 'mixamorigLeftToeBase', 'mixamorigRightToeBase']
+              .map((n) => rig.getObjectByName(n)).filter(Boolean);
+            /* At the frame he takes the knob, where that foot stays planted
+               through the grip and the first of the push. (Measured over the
+               whole approach instead, one passing stride - a toe 2 cm into the
+               foot of the door for a tenth of a second - stood him 17 cm
+               further back and left his arm straight before the door moved.) */
+            for (const b of toes) {
+              // only toes inside the doorway's width can meet the panel
+              const q = hinge.worldToLocal(b.getWorldPosition(new THREE.Vector3()));
+              if (q.x > -0.05 && q.x < panelW + 0.05) toeZ = Math.min(toeZ, q.z * Math.sign(knobZ));
+            }
+            const toeFix = (0.035 + 0.025 + 0.012) - toeZ;       // face, clearance, toe beyond its bone
+            if (isFinite(toeFix) && toeFix > 0) baseZ += toeFix * Math.sign(knobZ);
+            /* How long he can keep hold. For each candidate release point, walk
+               the door open with his push played in step with it exactly as the
+               tick will play it, run the same arm solve the tick runs, and keep
+               the largest opening at which his palm is still within 1.5 cm of
+               the knob all the way. (An arm-length ratio could not decide it:
+               the frame he takes the knob is his longest reach, so the arm is
+               already straight there, and every ratio test failed at the
+               start of a swing the solve in fact holds to within 6 mm.)
+               Capped at 60%: past that he would be carried a long way round
+               the hinge before walking in. */
+            const unit = inner.getWorldScale(new THREE.Vector3()).x || 1;
+            const holds = (rel) => {
+              for (let s = 0; s <= rel + 1e-6; s += 0.05) {
+                pose(tC + (tR - tC) * (s / rel), s, carriedBy(s, rel));
+                const k = hinge.localToWorld(gripPoint(new THREE.Vector3()));
+                reachFor(k, 1); reachFor(k, 1); reachFor(k, 1);
+                if (palmPoint(new THREE.Vector3()).distanceTo(k) / unit > 0.015) return false;
+              }
+              return true;
+            };
+            sRel = 0.20;
+            for (let rel = 0.60; rel >= 0.20 - 1e-6; rel -= 0.05) {
+              if (holds(rel)) { sRel = rel; break; }
+            }
+            // The solve above wrote into the arm; make the mixer write it back
+            // (it skips a bone whose value it thinks it has already written).
+            walkMixer.setTime(0);
+            pose(tC, 0);
+            console.info('[doorway] hand meets the knob at', +(tC).toFixed(2), 's; holds it until the door is',
+              Math.round(sRel * 100) + '% open (' + Math.round(sRel * 1.75 * 180 / Math.PI) + ' deg), knob side', knobZ > 0 ? '+z' : '-z');
+          } else {
+            upperB = foreB = handB = palmB = null;
+          }
+        }
+
+        man.visible = false;
+      }, undefined, () => { /* offline or file:// - the built figure stands */ });
+
+      const botY = OPEN_BOT - 0.06;
+      inner.position.y = -((headY + botY) / 2);
+      inner.scale.setScalar(MODEL_BASE_SIZE / (headY - botY));
+
+      const L = man.userData.limbs;
+      const sg = (v, a, b) => Math.max(0, Math.min(1, (v - a) / (b - a)));
+      const ez = (x) => x * x * (3 - 2 * x);
+
+      /* THE CYCLE, in five beats. It used to be the capture plus a tail, with
+         the door given 26% of the capture to open in - 0.55 s for a hundred
+         degrees - while he ran on his own clock beside it: the panel was open
+         before his hand had settled on it, and he never actually held it.
+
+           approach  0 -> tC           the capture at its own speed; over its
+                                       last SETTLE s his palm comes onto the knob
+           grip      tC -> +HOLD       hand on the knob, the door still shut
+           swing     +HOLD -> +SWING   the door opens slowly. While he holds it
+                                       his push is not played by the clock but
+                                       by the door: clip time is read off the
+                                       door's own opening, and his palm is held
+                                       ON the knob as it travels (reachFor)
+           through   when the knob is about to leave his reach (sRel, measured
+                     at load) he lets go; the rest of the capture plays at its
+                     own speed while the door finishes its swing alone
+           tail      the door swings shut on an empty frame
+
+         tC is read off the rig at load: the frame where his hand is furthest
+         towards the door is the frame it takes the handle. */
+      const TAIL = 1.30;
+      const WALK_AMP = 2.2;                 // how far his own stride is stretched
+      /* HOW MUCH OF A STEP BACK is kept. The stretch above is for the walk
+         through the door; applied to the small weight shift back he makes as
+         he takes the handle, it carried him 16 cm away from a door he is
+         meant to be pushing, and his hand had to let go almost at once. */
+      const BACK_AMP = 0.35;
+      /* WHICH WAY THE PANEL SWINGS: AWAY FROM HIM, into the room. It used to
+         swing towards the camera on the belief that he stood on the far side
+         and it would keep clear of him. Measured, he does the opposite - he
+         walks up on the camera side, takes the knob on its near face, and
+         after letting go walks through the opening to the knob's left, which
+         is a push. Swinging towards him, the panel passed straight through
+         his legs and then his chest at 40-60 degrees open; swinging away it
+         only ever sweeps the far side, where he is not until it is open. */
+      const SWING_SIGN = 1;
+      const UP_AXIS = new THREE.Vector3(0, 1, 0);
+      const HOLD = 0.18;        // s his hand is on the knob before it turns
+      const SWING = 1.60;       // s the door takes to open - it was 0.55
+      const PUSH_U = 0.26;      // the capture's own push, as a fraction of it
+      /* How much of that the door plays while he holds it. The capture's take
+         draws the hand back towards him as it opens - it was shot on a door
+         pulled the other way - and an arm held on the knob can only absorb
+         about a third of that before the palm leaves it (measured: within 9 mm
+         for the first third, 5 cm by half way). So that third is played in
+         step with the door, and the rest plays once he has let go, where it
+         reads as what it looks like: his hand coming back to his side. */
+      const LOCK_FRAC = 0.35;
+      const SETTLE = 0.20;      // s over which his palm comes onto the knob
+      const LETGO = 0.25;       // s over which it comes off again
+
+      // When, inside the swing, the door reaches a given opening: ez inverted.
+      const invEz = (y) => {
+        let lo = 0, hi = 1;
+        for (let i = 0; i < 24; i++) { const m = (lo + hi) / 2; if (ez(m) < y) lo = m; else hi = m; }
+        return (lo + hi) / 2;
+      };
+      let tauRFor = -1, tauR = 0;
+
+      /* ONE PLACE READS THE CLOCK. The door, the clip and the hand all take
+         their state from here, so they cannot drift apart. Returns how far
+         through the capture he is, how far open the door is, and how much of
+         his hand is on the knob. */
+      function beat(t) {
+        const clipT = walkMixer ? walkDur : 2.10;
+        const tC = uContact * clipT;
+        const tR = Math.min(clipT, (uContact + PUSH_U * LOCK_FRAC) * clipT);
+        if (tauRFor !== sRel) { tauR = SWING * invEz(sRel); tauRFor = sRel; }
+        const letGo = tC + HOLD + tauR;
+        const tailAt = Math.max(tC + HOLD + SWING, letGo + (clipT - tR));
+        const l = t % (tailAt + TAIL);
+        let clipTime = l, open = 0;
+        if (l >= tC + HOLD) {
+          const tau = l - tC - HOLD;
+          open = ez(Math.min(1, tau / SWING));
+          // IN STEP WITH THE DOOR while he holds it: the clip is exactly as far
+          // through his push as the door is through the part of its swing he
+          // pushes. After that he walks on at the capture's own speed.
+          clipTime = tau < tauR ? tC + (tR - tC) * (open / sRel)
+                                : Math.min(clipT, tR + (tau - tauR));
+        } else if (l >= tC) {
+          clipTime = tC;
+        }
+        const shut = l >= tailAt ? ez(sg(l - tailAt, 0.25 * TAIL, 0.75 * TAIL)) : 0;
+        const grip = l >= tailAt ? 0
+          : ez(sg(l, tC - SETTLE, tC)) * (1 - ez(sg(l, letGo, letGo + LETGO)));
+        return { u: Math.min(1, clipTime / clipT), open: open * (1 - shut), opened: open, grip };
+      }
+
+      /* THE STRIDE IS STRETCHED, not invented. The capture carries real root
+         motion, but only 0.55 of it - about a third of his own height, and
+         most of that spent at the door rather than crossing it. At icon size
+         that reads as a man standing still who happens to move his arm. So
+         his own displacement from the frame where he takes the handle is
+         scaled up about that point: the walk cycle, the turn and the timing
+         are all still the capture's, and only how much ground each step
+         covers is ours. Anchored at the handle so the one frame that has to
+         line up with the door does not move.
+
+         The feet slide a little against a floor this icon does not draw.
+         That is the trade, and at this size it is invisible. */
+      /* HE WALKS THROUGH WITH THE DOOR. While he holds the knob he is carried
+         round the hinge with it - position AND heading, rigidly, the way a man
+         walks round with a door he is pushing - so every part of him keeps the
+         place it had relative to the panel when he took hold: the knob stays
+         in his palm, his toes stay off its foot, and it can never swing into
+         him. Only moving him along the arc was tried first: the panel turned
+         under his outstretched hand while he kept facing the same way, and the
+         knob slid 16 cm off his palm by a third of the way open. How far he is
+         carried (0..sRel) eases in with the door and stops where he lets go;
+         from there the capture walks him the rest of the way in, and its own
+         turn to the right brings him round to face into the room again. */
+      function carriedBy(open, rel) {
+        return rel * ez(Math.min(1, open / rel));
+      }
+      function placeWalker(carried = 0) {
+        walker.rotation.y = baseRotY;
+        if (hipsBone && hipsRef) {
+          const d = hipsBone.position.clone().sub(hipsRef).multiplyScalar(rigK);
+          d.applyAxisAngle(UP_AXIS, walker.rotation.y);
+          /* ONLY THE WAY IN IS STRETCHED. Scaling his whole displacement
+             grew the sideways part of it too, and the capture drifts as it
+             turns - which walked him out to the left jamb by the end. The
+             depth component is the one that means "further through the
+             door"; his own lateral motion is left at life size. */
+          const amp = d.z < 0 ? WALK_AMP : BACK_AMP;     // -z is towards the door
+          walker.position.set(baseX, OPEN_BOT, baseZ + d.z * (amp - 1));
+        } else {
+          walker.position.y = OPEN_BOT;
+        }
+        if (carried > 0) {
+          // the same turn the hinge makes, about the hinge line
+          const a = SWING_SIGN * 1.75 * carried, c = Math.cos(a), sn = Math.sin(a);
+          const px = walker.position.x - hinge.position.x, pz = walker.position.z - hinge.position.z;
+          walker.position.x = hinge.position.x + px * c + pz * sn;
+          walker.position.z = hinge.position.z - px * sn + pz * c;
+          walker.rotation.y = baseRotY + a;
+        }
+      }
+
+      /* THE HAND ON THE KNOB. An analytic two-bone solve on the right arm,
+         run after the clip has posed it: the elbow opens or closes until the
+         wrist is the right distance from the shoulder, then the whole arm
+         swings to put it there - both turns about the capture's own elbow
+         plane, so the arm keeps the shape he gave it. `weight` eases the
+         target from where the capture put his hand to the knob, and back. */
+      const _ikA = new THREE.Vector3(), _ikB = new THREE.Vector3(), _ikC = new THREE.Vector3();
+      const _ikT = new THREE.Vector3(), _ikP = new THREE.Vector3(), _ikAx = new THREE.Vector3();
+      const _ikU = new THREE.Vector3(), _ikV = new THREE.Vector3();
+      const _ikQ = new THREE.Quaternion(), _ikPQ = new THREE.Quaternion(), _ikPQi = new THREE.Quaternion();
+      const clamp1 = (x) => Math.max(-1, Math.min(1, x));
+
+      // Where his palm is: most of the way from the wrist to the knuckles,
+      // which is where a hand closes round a knob.
+      function palmPoint(out) {
+        handB.getWorldPosition(out);
+        return out.lerp(palmB.getWorldPosition(_ikP), 0.7);
+      }
+      /* Where on the knob the palm goes, in the hinge's frame: on its outer
+         face, KNOB_GRIP out from its centre on his side. Aimed at the centre,
+         the palm sits against the panel and the fingers closing round the knob
+         went into the door. */
+      const KNOB_GRIP = 0.035;
+      function gripPoint(out) {
+        return out.set(KNOB_X, 0, knobZ + Math.sign(knobZ) * KNOB_GRIP);
+      }
+      // A turn about a world axis, written into the bone's local rotation.
+      function turnBone(bone, axis, angle) {
+        if (!(Math.abs(angle) > 1e-7)) return;
+        bone.parent.getWorldQuaternion(_ikPQ);
+        _ikPQi.copy(_ikPQ).invert();
+        _ikQ.setFromAxisAngle(axis, angle);
+        bone.quaternion.premultiply(_ikPQi.multiply(_ikQ).multiply(_ikPQ));
+        bone.updateMatrixWorld(true);
+      }
+      function reachFor(knob, weight) {
+        upperB.getWorldPosition(_ikA); foreB.getWorldPosition(_ikB); handB.getWorldPosition(_ikC);
+        // the wrist goes wherever puts the PALM on the knob
+        _ikT.copy(knob).sub(palmPoint(_ikU)).add(_ikC);
+        _ikT.lerpVectors(_ikC, _ikT, weight);
+        const lab = _ikA.distanceTo(_ikB), lcb = _ikB.distanceTo(_ikC);
+        const lat = Math.max(1e-4, Math.min(lab + lcb - 1e-4, _ikA.distanceTo(_ikT)));
+        _ikU.subVectors(_ikC, _ikA).normalize();              // shoulder -> wrist
+        _ikV.subVectors(_ikB, _ikA).normalize();              // shoulder -> elbow
+        const acab0 = Math.acos(clamp1(_ikU.dot(_ikV)));
+        _ikAx.crossVectors(_ikU, _ikV);
+        if (_ikAx.lengthSq() < 1e-12) return;                 // arm dead straight: no plane to bend in
+        _ikAx.normalize();
+        _ikU.subVectors(_ikA, _ikB).normalize();              // elbow -> shoulder
+        _ikV.subVectors(_ikC, _ikB).normalize();              // elbow -> wrist
+        const babc0 = Math.acos(clamp1(_ikU.dot(_ikV)));
+        const acab1 = Math.acos(clamp1((lcb * lcb - lab * lab - lat * lat) / (-2 * lab * lat)));
+        const babc1 = Math.acos(clamp1((lat * lat - lab * lab - lcb * lcb) / (-2 * lab * lcb)));
+        turnBone(upperB, _ikAx, acab1 - acab0);
+        turnBone(foreB, _ikAx, babc1 - babc0);
+        // then swing the whole arm so the wrist lies on the target
+        handB.getWorldPosition(_ikC);
+        _ikU.subVectors(_ikC, _ikA).normalize();
+        _ikV.subVectors(_ikT, _ikA).normalize();
+        _ikAx.crossVectors(_ikU, _ikV);
+        if (_ikAx.lengthSq() > 1e-12) turnBone(upperB, _ikAx.normalize(), Math.acos(clamp1(_ikU.dot(_ikV))));
+      }
+      /* What the mixer last wrote to the arm. A PropertyMixer only writes a
+         bone when the value it computes differs from the one it wrote last,
+         so on any frame the clip time holds still - the grip, the tail - it
+         would leave last frame's correction standing and this would stack a
+         second one on top of it. */
+      const armClip = [new THREE.Quaternion(), new THREE.Quaternion(), new THREE.Quaternion()];
+      let armTouched = false;
+      const knobW = new THREE.Vector3();
+
+      // For tuning from the console: where the palm is against the knob now,
+      // in the door's own units (the opening is 1.10 across).
+      root.userData.doorDebug = () => {
+        if (!handB) return null;
+        inner.updateMatrixWorld(true);
+        const k = hinge.localToWorld(gripPoint(new THREE.Vector3()));
+        const gap = palmPoint(new THREE.Vector3()).distanceTo(k) / (inner.getWorldScale(new THREE.Vector3()).x || 1);
+        return { uContact, sRel, walkDur, knobZ, palmToKnob: gap, doorDeg: -hinge.rotation.y * 180 / Math.PI };
+      };
+      root.userData.beat = beat;
+
+      root.userData.tick = function (t, opacity) {
+        const b = beat(t);
+        const u = b.u;                              // 0..1 across the capture
+
+        /* THE DOOR IS DRIVEN BY THE CLIP RATHER THAN BESIDE IT - and while he
+           holds it, the clip is driven by the door. The built stand-in walks
+           the other way (out through the door towards the reader), so for it
+           the panel keeps swinging towards the camera, clear of its path. */
+        hinge.rotation.y = (walker ? SWING_SIGN : -1) * 1.75 * b.open;
+
+        const fig = walker || man;
+
+        if (walker) {
+          /* Locked to the loop phase rather than advanced by elapsed time.
+             The whole point here is that the door and the walk agree, and
+             integrating dt lets them drift apart over a few minutes; setting
+             the time outright means they cannot. It also means a tab that has
+             been in the background comes back in step instead of catching up
+             through a burst of frames. */
+          if (armTouched) {
+            upperB.quaternion.copy(armClip[0]);
+            foreB.quaternion.copy(armClip[1]);
+            handB.quaternion.copy(armClip[2]);
+            armTouched = false;
+          }
+          if (walkMixer) walkMixer.setTime(Math.min(u, 0.999) * walkDur);
+          placeWalker(carriedBy(b.opened, sRel));
+
+          if (upperB && b.grip > 0.001) {
+            armClip[0].copy(upperB.quaternion);
+            armClip[1].copy(foreB.quaternion);
+            armClip[2].copy(handB.quaternion);
+            armTouched = true;
+            inner.updateMatrixWorld(true);
+            hinge.localToWorld(gripPoint(knobW));
+            // Three passes: each turns the hand with the forearm, which carries
+            // the palm a little off the point it was aimed at.
+            reachFor(knobW, b.grip);
+            reachFor(knobW, b.grip);
+            reachFor(knobW, b.grip);
+          }
+        } else {
+          // The built stand-in, for a failed fetch. It has no root motion, so
+          // it still gets walked across the opening by hand.
+          const forward = ez(sg(u, uContact + 0.06, 0.94));
+          const stride  = sg(u, 0.02, 0.10) * (1 - sg(u, 0.86, 0.96));
+          const reach   = 1 - ez(sg(u, uContact, uContact + 0.20));
+          const w = t * 7.5;
+          const swing = Math.sin(w) * 0.55 * stride;
+
+          fig.position.x = 0.30 + (0.18 - 0.30) * forward;
+          fig.position.z = -0.42 + (0.78 - -0.42) * forward;
+          fig.scale.setScalar(0.74 + (1.10 - 0.74) * forward);
+          fig.position.y = OPEN_BOT + Math.abs(Math.sin(w)) * 0.03 * stride;
+
+          L.hipL.rotation.x = swing;
+          L.hipR.rotation.x = -swing;
+          // Knees only bend one way, and only on the back half of the stride -
+          // that asymmetry is most of what separates a walk from a scissor.
+          L.kneeL.rotation.x = -0.80 * Math.max(0, -Math.sin(w + 0.9)) * stride;
+          L.kneeR.rotation.x = -0.80 * Math.max(0, -Math.sin(w + 0.9 + Math.PI)) * stride;
+
+          L.shoulderL.rotation.x = -swing * 0.7;
+          L.elbowL.rotation.x = -0.30 - 0.22 * Math.max(0, Math.sin(w)) * stride;
+
+          // The right arm starts out on the knob - extended towards the camera
+          // and angled in towards it - and returns to the walk cycle as he
+          // lets go and comes forward.
+          L.shoulderR.rotation.x = swing * 0.7 * (1 - reach) + reach * -1.30;
+          L.shoulderR.rotation.z = reach * -0.28;
+          L.elbowR.rotation.x = -0.30 + reach * -0.22;
+        }
+
+        // Faded up at the start as well as down at the end: he leaves the
+        // cycle out at the front and re-enters it back behind the door, so
+        // without this he would pop into existence at full strength every
+        // time the loop turned over.
+        const alpha = ez(sg(u, 0, 0.07)) * (1 - ez(sg(u, 0.88, 1)));
+        fig.visible = alpha > 0.002;
+        manMat.opacity = opacity * alpha;
+      };
+
+      return root;
+    }
+
+    /* ---- Slot 1: the handshake -------------------------------------------
+       The reference clip, keyed off its backdrop and struck in platinum. The
+       shot is lit on a cyan sweep, and skin, white cuff and black sleeve are
+       all either warm or near-neutral - so how far green and blue run ahead
+       of red separates ground from subject on its own, with no matte to draw.
+       Measured across the clip the subject sits under 0.02 and the backdrop
+       over 0.14, with a near-empty valley between them; the ramp lies in that
+       valley.
+
+       The sleeves are cut by the frame rather than ending, so the key also
+       dissolves them into the page at the left and right edges instead of
+       guillotining them. */
+    const SHAKE_SRC = './animations/Two_hands_shaking_professionally_202608300609.mp4';
+
+    function buildHandshakeModel() {
+      return pingPongClip({
+        src: SHAKE_SRC,
+        /* Measured off the keyed matte across the whole clip rather than
+           guessed: the subject spans y 0.111-0.889 and runs edge to edge in
+           x, because the hands start almost a frame apart. Cropping in to
+           flatter the clasp cost the reach its hands, so this keeps nearly
+           the full width. */
+        crop: { x0: 0.080, x1: 0.920, y0: 0.105, y1: 0.895 },
+        cell: 224,
+        key: '(1.0 - smoothstep(0.05, 0.13, max(c.g, c.b) - c.r))'
+           + ' * smoothstep(0.0, 0.09, vUv.x) * smoothstep(1.0, 0.91, vUv.x)',
+        // The photograph's own tones are bunched - black suit at 0.07, skin
+        // between 0.42 and 0.94, cuff at 0.96 - so they are stretched before
+        // being run between the two ends of the metal. Without this the hand
+        // came out a flat slab with no knuckles in it.
+        tone: 'clamp((lum - 0.10) / 0.84, 0.0, 1.0)'
+      });
+    }
+
+    /* ---- Slot 2: the consultation -----------------------------------------
+       Was the keyed clip of one figure hauling another up a slope; now two
+       people across a small table. One asks - palm up, offered across it -
+       while the other nods; the other answers with both hands, shaping the
+       idea, while the first nods it through; then both lean in and shake on
+       it over the middle of the table, sit back, and after a breath it all
+       begins again.
+
+       The figures are the doorway's own body, services-door.fbx - fetched
+       once and cloned for the second chair - in the same platinum as the
+       table and chairs. Its capture is not played. Every pose is solved per
+       frame from the rig's T-pose instead, which is what lets two people sit,
+       talk and meet at one exact point without a single hand-keyed frame:
+
+         seated   each leg a two-bone solve with the knee as a true hinge,
+                  the foot then set flat the way it stands
+         leaning  shared between the pelvis and the three spine bones
+         hands    each is given a wrist position and an orientation - which
+                  way the fingers point, which way the palm faces - in its
+                  owner's frame, and the arm is solved to put it there: the
+                  elbow a true hinge, most of any roll taken along the
+                  forearm rather than wrung at the wrist
+         timing   eased envelopes over those targets. Every move leaves from
+                  rest and comes back to it, so the loop has no seam
+
+       The two right hands are sent to one point over the table's centre and
+       pumped off one clock, so the handshake is a clasp rather than two hands
+       waving near each other. */
+    const CONSULT_URL = './services-door.fbx';
+
+    /* The rig, posed by hand rather than by a clip. Everything is measured off
+       the T-pose it loads in - each limb's bend axis, each hand's finger and
+       palm directions - and carried into the bones' own frames once, so a
+       pose is only ever "put the wrist here, facing so". */
+    function seatedPoser(rig) {
+      const V = () => new THREE.Vector3(), Q = () => new THREE.Quaternion();
+      const bone = (n) => rig.getObjectByName('mixamorig' + n);
+      const all = [];
+      rig.traverse((o) => { if (o.isBone) all.push(o); });
+      const rest = all.map((b) => b.quaternion.clone());
+      const restOf = (b) => rest[all.indexOf(b)];
+      function reset() { for (let i = 0; i < all.length; i++) all[i].quaternion.copy(rest[i]); }
+
+      const _o = V(), _x = V(), _m = new THREE.Matrix4();
+      const _pq = Q(), _pqi = Q(), _r = Q(), _q = Q();
+      // v made square to a unit axis, and unit
+      const ortho = (v, ax) => v.sub(_o.copy(ax).multiplyScalar(v.dot(ax))).normalize();
+      // the rotation taking x to a and y to b (both unit, and square)
+      const basisQ = (a, b, out) => out.setFromRotationMatrix(_m.makeBasis(a, b, _x.crossVectors(a, b)));
+
+      reset();
+      rig.updateWorldMatrix(true, true);
+      const rigQi = rig.getWorldQuaternion(Q()).invert();
+      // A direction in the rig's own (T-pose) frame, in bone b's frame.
+      const inBone = (b, x, y, z) => new THREE.Vector3(x, y, z)
+        .applyQuaternion(b.getWorldQuaternion(Q()).premultiply(rigQi).invert()).normalize();
+
+      function setWorldQ(b, qW) {
+        b.quaternion.copy(b.parent.getWorldQuaternion(_pq).invert().multiply(qW));
+        b.updateMatrixWorld(true);
+      }
+      // A turn about a world axis, written into the bone's local rotation.
+      function turnW(b, axisW, ang) {
+        if (!ang) return;
+        b.parent.getWorldQuaternion(_pq);
+        _pqi.copy(_pq).invert();
+        b.quaternion.premultiply(_r.setFromAxisAngle(axisW, ang).premultiply(_pqi).multiply(_pq));
+        b.updateMatrixWorld(true);
+      }
+
+      /* A two-bone limb. The hinge is the axis its middle joint bends about in
+         the T-pose, in the rig's frame: the elbows flex forward from arms held
+         out palms down, the knees back from legs standing straight. */
+      function limb(u, l, e, hx, hy, hz) {
+        const U = bone(u), L = bone(l), E = bone(e);
+        const axU = L.position.clone().normalize(), axL = E.position.clone().normalize();
+        const hU = ortho(inBone(U, hx, hy, hz), axU), hL = ortho(inBone(L, hx, hy, hz), axL);
+        return { U, L, E, bU: basisQ(axU, hU, Q()).invert(), bL: basisQ(axL, hL, Q()).invert() };
+      }
+      const limbs = {
+        armL: limb('LeftArm', 'LeftForeArm', 'LeftHand', 0, -1, 0),
+        armR: limb('RightArm', 'RightForeArm', 'RightHand', 0, 1, 0),
+        legL: limb('LeftUpLeg', 'LeftLeg', 'LeftFoot', 1, 0, 0),
+        legR: limb('RightUpLeg', 'RightLeg', 'RightFoot', 1, 0, 0)
+      };
+
+      /* The hands. Fingers close about the T-pose's forward axis (-z on the
+         left hand, +z on the right); the thumb swings in towards them about
+         the palm's normal and curls about the line of the arm. */
+      const hands = {};
+      [['L', 'Left', -1], ['R', 'Right', 1]].forEach(([s, side, sgn]) => {
+        const H = bone(side + 'Hand');
+        const axH = bone(side + 'HandMiddle1').position.clone().normalize();
+        const palmH = ortho(inBone(H, 0, -1, 0), axH);
+        hands[s] = {
+          H, rest: restOf(H), bH: basisQ(axH, palmH, Q()).invert(),
+          clavicle: bone(side + 'Shoulder'),
+          fingers: ['Index', 'Middle', 'Ring', 'Pinky'].map((f, fi) => [1, 2, 3].map((i) => {
+            const b = bone(side + 'Hand' + f + i);
+            return { b, r: restOf(b), ax: inBone(b, 0, 0, sgn), k: [1.0, 1.25, 0.8][i - 1] * (1 + fi * 0.08) };
+          })),
+          thumb: [1, 2, 3].map((i) => {
+            const b = bone(side + 'HandThumb' + i);
+            return { b, r: restOf(b), curl: inBone(b, 1, 0, 0), swing: inBone(b, 0, -sgn, 0), k: i === 1 ? 0.3 : 0.8 };
+          })
+        };
+      });
+      const feet = { L: bone('LeftFoot'), R: bone('RightFoot') };
+      const footRest = {
+        L: feet.L.getWorldQuaternion(Q()).premultiply(rigQi),
+        R: feet.R.getWorldQuaternion(Q()).premultiply(rigQi)
+      };
+
+      /* Puts the end of the limb on `target`, the middle joint bowed towards
+         `pole`. Both bones turn about the one hinge, so the joint bends the
+         way it is built to. Leaves the lower bone's world rotation in `out`
+         and returns its direction. */
+      const _A = V(), _B = V(), _d = V(), _pv = V(), _n = V(), _du = V(), _dl = V();
+      function solve(lm, target, pole, out) {
+        lm.U.getWorldPosition(_A);
+        lm.L.getWorldPosition(_B);
+        const l1 = _A.distanceTo(_B), l2 = _B.distanceTo(lm.E.getWorldPosition(_dl));
+        _d.subVectors(target, _A);
+        const want = _d.length();
+        _d.divideScalar(want || 1);
+        const dist = Math.max(Math.abs(l1 - l2) + 1e-5, Math.min(l1 + l2 - 1e-5, want));
+        const a = (l1 * l1 - l2 * l2 + dist * dist) / (2 * dist);
+        const h = Math.sqrt(Math.max(0, l1 * l1 - a * a));
+        ortho(_pv.copy(pole), _d);
+        _B.copy(_A).addScaledVector(_d, a).addScaledVector(_pv, h);       // the elbow, or knee
+        _du.subVectors(_B, _A).normalize();
+        _dl.copy(_A).addScaledVector(_d, dist).sub(_B).normalize();
+        _n.crossVectors(_pv, _d).normalize();                              // the hinge
+        setWorldQ(lm.U, basisQ(_du, _n, _q).multiply(lm.bU));
+        setWorldQ(lm.L, basisQ(_dl, _n, out).multiply(lm.bL));
+        return _dl;
+      }
+
+      const WRIST_TWIST = 0.6;        // share of a hand's roll taken along the forearm
+      const _f = V(), _p = V(), _qL = Q(), _qH = Q(), _dq = Q();
+      function placeHand(s, target, pole, finger, palm) {
+        const hd = hands[s], lm = s === 'L' ? limbs.armL : limbs.armR;
+        const axis = solve(lm, target, pole, _qL);
+        _f.copy(finger).normalize();
+        ortho(_p.copy(palm), _f);
+        basisQ(_f, _p, _qH).multiply(hd.bH);
+        // How far that is rolled, about the forearm, from where the forearm
+        // alone would carry the hand; most of it goes to the forearm.
+        _dq.copy(_qL).multiply(hd.rest).invert().premultiply(_qH);
+        const sw = _dq.w < 0 ? -1 : 1;
+        const tw = 2 * Math.atan2(sw * (_dq.x * axis.x + _dq.y * axis.y + _dq.z * axis.z), sw * _dq.w);
+        setWorldQ(lm.L, _q.setFromAxisAngle(axis, WRIST_TWIST * tw).multiply(_qL));
+        setWorldQ(hd.H, _qH);
+      }
+
+      function curl(s, amt, thumbIn, thumbCurl) {
+        const hd = hands[s];
+        hd.fingers.forEach((fg) => fg.forEach((j) => {
+          j.b.quaternion.copy(j.r).multiply(_r.setFromAxisAngle(j.ax, amt * j.k));
+        }));
+        hd.thumb.forEach((j, i) => {
+          j.b.quaternion.copy(j.r);
+          if (i === 0) j.b.quaternion.multiply(_r.setFromAxisAngle(j.swing, thumbIn));
+          j.b.quaternion.multiply(_r.setFromAxisAngle(j.curl, thumbCurl * j.k));
+        });
+      }
+
+      return {
+        bone, reset, turnW, setWorldQ, solve, placeHand, curl, limbs, hands, feet, footRest,
+        hips: bone('Hips'), spine: ['Spine', 'Spine1', 'Spine2'].map(bone),
+        neck: bone('Neck'), head: bone('Head')
+      };
+    }
+
+    function buildConsultationModel() {
+      const root = new THREE.Group();
+      const inner = new THREE.Group();
+      root.add(inner);
+
+      // Stage units are metres: a 1.75 m figure, a 0.42 m seat, a 0.74 m table.
+      const SEAT_H = 0.42, TABLE_H = 0.74;
+      const APART = 0.55;                   // the table's centre to each chair's
+      const TOP_X = 0.52, TOP_Z = 0.78;     // the table top, across and along
+      const TALL = 1.75;
+      /* The hip joints: behind the seat's centre, and high enough over it that
+         the seat takes the body's weight rather than the body taking the seat.
+         The feet are drawn back under the knees - there is no room under a
+         table this size for two pairs of legs out straight - which drops the
+         knees and slopes the thighs down onto the seat's front edge; at 0.09
+         they sank 4 cm into it, the slab's whole thickness. */
+      const HIP_Z = -0.04, HIP_UP = 0.11;
+      const ANKLE_H = 0.085;                // ankle over the sole, as the rig stands
+
+      /* Sized on the width, which is the long side - 1.64 from chair back to
+         chair back, against 1.31 from the floor to a crown - and centred on
+         the height. */
+      const FIT = MODEL_BASE_SIZE / 1.66;
+      inner.scale.setScalar(FIT);
+      inner.position.y = -0.655 * FIT;
+
+      const box = (w, h, d) => slab(w, h, d, platinumMat, platinumEdgeMat);
+      const CORNERS = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
+      const top = box(TOP_X, 0.035, TOP_Z);
+      top.position.y = TABLE_H - 0.0175;
+      inner.add(top);
+      CORNERS.forEach(([cx, cz]) => {
+        const leg = box(0.035, TABLE_H - 0.035, 0.035);
+        leg.position.set(cx * (TOP_X / 2 - 0.04), (TABLE_H - 0.035) / 2, cz * (TOP_Z / 2 - 0.04));
+        inner.add(leg);
+      });
+
+      // Each sitter's own frame, with the chair in it: +z towards the table,
+      // +x the sitter's left.
+      const frames = [-1, 1].map((sx) => {
+        const f = new THREE.Group();
+        f.position.x = sx * APART;
+        f.rotation.y = -sx * Math.PI / 2;
+        inner.add(f);
+        const seat = box(0.44, 0.04, 0.42);
+        seat.position.y = SEAT_H - 0.02;
+        const back = box(0.44, 0.46, 0.035);
+        back.position.set(0, SEAT_H + 0.25, -0.228);
+        back.rotation.x = -0.10;              // raked back a little
+        f.add(seat, back);
+        CORNERS.forEach(([cx, cz]) => {
+          const leg = box(0.03, SEAT_H - 0.04, 0.03);
+          leg.position.set(cx * 0.19, (SEAT_H - 0.04) / 2, cz * 0.18);
+          f.add(leg);
+        });
+        return f;
+      });
+
+      /* THE POSES, each in its owner's frame. `at` is where the wrist goes,
+         `pole` the way the elbow bows, `q` the hand's orientation - its x the
+         way the fingers point, its y the way the palm faces. */
+      const ori = (fx, fy, fz, px, py, pz) => {
+        const f = new THREE.Vector3(fx, fy, fz).normalize();
+        const p = new THREE.Vector3(px, py, pz);
+        p.sub(f.clone().multiplyScalar(p.dot(f))).normalize();
+        return new THREE.Quaternion().setFromRotationMatrix(
+          new THREE.Matrix4().makeBasis(f, p, new THREE.Vector3().crossVectors(f, p)));
+      };
+      const hand = (x, y, z, pole, q, curl, thumbIn = 0, thumbCurl = 0) =>
+        ({ at: new THREE.Vector3(x, y, z), pole: new THREE.Vector3(...pole), q, curl, thumbIn, thumbCurl });
+      const POSE = {
+        // resting on the table's edge, fingers loosely in
+        restL: hand(0.14, TABLE_H + 0.045, 0.34, [0.7, -1, -0.5], ori(-0.3, 0, 1, 0, -1, 0), 0.35),
+        restR: hand(-0.14, TABLE_H + 0.045, 0.34, [-0.7, -1, -0.5], ori(0.3, 0, 1, 0, -1, 0), 0.35),
+        // the question: open, palm up and a little in, offered across the table
+        askR: hand(-0.11, TABLE_H + 0.16, 0.30, [-0.8, -1, -0.3], ori(0.25, 0.25, 1, 0.45, 1, 0), 0.18),
+        // the answer: both hands up, palms facing, shaping it between them
+        explL: hand(0.10, TABLE_H + 0.17, 0.28, [0.8, -1, -0.3], ori(-0.1, 0.45, 1, -1, 0, 0), 0.2),
+        explR: hand(-0.10, TABLE_H + 0.17, 0.28, [-0.8, -1, -0.3], ori(0.1, 0.45, 1, 1, 0, 0), 0.2),
+        /* the handshake: over the table's centre, palm to the sitter's own left,
+           thumb up. The fingers angle down, so they close round the edge of
+           the other hand rather than into it; the two wrists sit a palm's
+           thickness either side of the centre line. */
+        shakeR: hand(-0.014, TABLE_H + 0.17, APART - 0.075, [-0.9, -1, -0.1], ori(0.05, -0.3, 1, 1, 0, 0), 0.75, 0.45, 0.3)
+      };
+
+      const handState = () => ({ at: new THREE.Vector3(), pole: new THREE.Vector3(), q: new THREE.Quaternion(), curl: 0, thumbIn: 0, thumbCurl: 0 });
+      const figState = () => ({ lean: 0, nod: 0, tilt: 0, twist: 0, sway: 0, reach: 0, L: handState(), R: handState() });
+      const SA = figState(), SB = figState();     // A asks, on the left; B answers
+      function mixHand(out, a, b, w) {
+        out.at.lerpVectors(a.at, b.at, w);
+        out.pole.lerpVectors(a.pole, b.pole, w);
+        out.q.slerpQuaternions(a.q, b.q, w);
+        out.curl = a.curl + (b.curl - a.curl) * w;
+        out.thumbIn = a.thumbIn + (b.thumbIn - a.thumbIn) * w;
+        out.thumbCurl = a.thumbCurl + (b.thumbCurl - a.thumbCurl) * w;
+        return out;
+      }
+
+      // Easing: smootherstep, so every move starts and stops with no jolt.
+      const ss = (x) => { x = Math.max(0, Math.min(1, x)); return x * x * x * (x * (x * 6 - 15) + 10); };
+      // up over [a, b], held, down over [c, d]
+      const env = (t, a, b, c, d) => (t <= a || t >= d) ? 0
+        : t < b ? ss((t - a) / (b - a)) : t <= c ? 1 : 1 - ss((t - c) / (d - c));
+      // one nod: down and back up over `dur`
+      const bump = (t, t0, dur) => (t <= t0 || t >= t0 + dur) ? 0
+        : 0.5 - 0.5 * Math.cos(2 * Math.PI * (t - t0) / dur);
+
+      /* THE SEQUENCE, 10.8 s:
+           0.6 - 3.6   A asks: a hand comes up open and offers the question
+                       twice; B nods along at 1.5 and 2.25
+           3.4 - 6.4   B answers with both hands; A nods it through at 4.3,
+                       5.05, and once more at 5.9 once it has landed
+           6.3 - 7.4   both lean in and reach
+           7.4 - 8.6   the handshake: three pumps, one clock for both hands
+           8.7 - 9.7   release, and sit back
+           9.7 - 10.8  a breath at rest, then again */
+      const LOOP = 10.8;
+      function timeline(t) {
+        // three slow sways a loop, so they meet the seam in step
+        const idle = (Math.PI * 2 * 3 * t) / LOOP;
+        [SA, SB].forEach((F, i) => {
+          F.lean = 0.18; F.nod = 0; F.tilt = 0; F.twist = 0; F.reach = 0;
+          F.sway = 0.012 * Math.sin(idle + i * 2.1);
+        });
+
+        // A asks
+        const wA = env(t, 0.6, 1.3, 2.9, 3.6);
+        mixHand(SA.R, POSE.restR, POSE.askR, wA);
+        mixHand(SA.L, POSE.restL, POSE.restL, 0);
+        const bA = env(t, 1.1, 1.5, 2.7, 3.0), pA = (Math.PI * 2 * (t - 1.3)) / 0.8;
+        SA.R.at.y += 0.035 * Math.sin(pA) * bA;
+        SA.R.at.z += 0.06 * (0.5 - 0.5 * Math.cos(pA)) * bA;
+        SA.lean += 0.06 * wA; SA.tilt = 0.07 * wA; SA.twist = 0.05 * wA;
+        SB.nod = 0.22 * (bump(t, 1.5, 0.55) + bump(t, 2.25, 0.55));
+
+        // B answers
+        const wB = env(t, 3.4, 4.1, 5.7, 6.4);
+        mixHand(SB.R, POSE.restR, POSE.explR, wB);
+        mixHand(SB.L, POSE.restL, POSE.explL, wB);
+        const bB = env(t, 3.9, 4.3, 5.5, 5.8), pB = (Math.PI * 2 * (t - 4.1)) / 0.8;
+        const spread = 0.06 * Math.sin(pB) * bB, lift = 0.02 * Math.sin(pB * 2) * bB;
+        SB.R.at.x -= spread; SB.L.at.x += spread;
+        SB.R.at.y += lift; SB.L.at.y += lift;
+        SB.lean += 0.06 * wB; SB.nod += 0.05 * Math.sin(pB) * bB;
+        SA.nod += 0.22 * (bump(t, 4.3, 0.55) + bump(t, 5.05, 0.55) + bump(t, 5.9, 0.6));
+
+        // and they shake on it
+        const wS = env(t, 6.3, 7.4, 8.7, 9.7);
+        const pump = 0.035 * Math.sin((Math.PI * 2 * (t - 7.4)) / 0.4) * env(t, 7.4, 7.55, 8.45, 8.6);
+        [SA, SB].forEach((F) => {
+          mixHand(F.R, F.R, POSE.shakeR, wS);
+          F.R.at.y += pump;
+          F.reach = 0.12 * wS;
+          F.lean += 0.2 * wS; F.twist += 0.12 * wS;
+          F.nod += 0.1 * bump(t, 7.5, 0.9);
+        });
+      }
+
+      const figures = [];
+      const _fq = new THREE.Quaternion(), _rq = new THREE.Quaternion(), _lq = new THREE.Quaternion();
+      const _lat = new THREE.Vector3(), _up = new THREE.Vector3(), _fwd = new THREE.Vector3();
+      const _t = new THREE.Vector3(), _pl = new THREE.Vector3(), _fd = new THREE.Vector3(), _pd = new THREE.Vector3();
+      function sit(fig, st) {
+        const { frame, rig, P } = fig;
+        P.reset();
+        frame.updateWorldMatrix(true, true);
+        frame.getWorldQuaternion(_fq);
+        _lat.set(1, 0, 0).applyQuaternion(_fq);
+        _up.set(0, 1, 0).applyQuaternion(_fq);
+        _fwd.set(0, 0, 1).applyQuaternion(_fq);
+
+        P.turnW(P.hips, _lat, st.lean * 0.55);
+        P.spine.forEach((b) => {
+          P.turnW(b, _lat, st.lean * 0.15);
+          P.turnW(b, _up, st.twist / 3);
+          P.turnW(b, _fwd, st.sway / 3);
+        });
+        P.turnW(P.hands.R.clavicle, _up, st.reach);   // the reaching shoulder comes forward
+        P.turnW(P.neck, _lat, st.nod * 0.4);
+        P.turnW(P.head, _lat, st.nod * 0.6);
+        P.turnW(P.head, _fwd, st.tilt);
+
+        // Legs: ankles on the floor a little behind the knees, soles flat.
+        rig.getWorldQuaternion(_rq);
+        ['L', 'R'].forEach((s) => {
+          frame.localToWorld(_t.set(s === 'L' ? 0.11 : -0.11, ANKLE_H, 0.27));
+          P.solve(s === 'L' ? P.limbs.legL : P.limbs.legR, _t, _pl.set(0, 1, 0.6).applyQuaternion(_fq), _lq);
+          P.setWorldQ(P.feet[s], _lq.copy(_rq).multiply(P.footRest[s]));
+        });
+
+        ['L', 'R'].forEach((s) => {
+          const h = st[s];
+          frame.localToWorld(_t.copy(h.at));
+          _pl.copy(h.pole).applyQuaternion(_fq);
+          _fd.set(1, 0, 0).applyQuaternion(h.q).applyQuaternion(_fq);
+          _pd.set(0, 1, 0).applyQuaternion(h.q).applyQuaternion(_fq);
+          P.placeHand(s, _t, _pl, _fd, _pd);
+          P.curl(s, h.curl, h.thumbIn, h.thumbCurl);
+        });
+      }
+
+      /* Struck in platinumMat itself, the table's own material, rather than a
+         clone: nothing writes this one's opacity but the frame loop, so the
+         sitters fade in and out with their furniture. */
+      new FBXLoader().load(CONSULT_URL, (src) => {
+        // Cloned before anything is posed, so both start from the same T-pose.
+        [src, cloneRig(src)].forEach((rig, i) => {
+          rig.traverse((o) => {
+            if (o.isMesh || o.isSkinnedMesh) {
+              o.material = platinumMat;
+              // A skinned mesh deforms outside the bounds it was built with.
+              o.frustumCulled = false;
+            }
+          });
+          const frame = frames[i];
+          frame.add(rig);
+          const P = seatedPoser(rig);
+          /* Sized to TALL, soles to crown, and sat with the hip joints over
+             the seat - a little behind its centre, where a seated pelvis
+             rests. Measured in the rig's own frame, off the skeleton: Box3
+             would read the skinned mesh in its bind pose. */
+          rig.updateWorldMatrix(true, true);
+          const inv = new THREE.Matrix4().copy(rig.matrixWorld).invert();
+          const at = (n) => P.bone(n).getWorldPosition(new THREE.Vector3()).applyMatrix4(inv);
+          const k = TALL / (at('HeadTop_End').y - at('LeftToe_End').y);
+          const hip = at('LeftUpLeg').add(at('RightUpLeg')).multiplyScalar(0.5);
+          rig.scale.setScalar(k);
+          rig.position.set(-hip.x * k, SEAT_H + HIP_UP - hip.y * k, HIP_Z - hip.z * k);
+          figures.push({ frame, rig, P });
+        });
+      }, undefined, () => { /* offline or file:// - the table and chairs stand empty */ });
+
+      root.userData.tick = function (t) {
+        if (figures.length < 2) return;
+        // Set from the clock outright, like the other figures, so a spell in a
+        // background tab comes back in step rather than catching up.
+        timeline(t % LOOP);
+        sit(figures[0], SA);
+        sit(figures[1], SB);
+      };
+
+      return root;
+    }
+
+    /* ---- Slot 3: insights ------------------------------------------------
+       The reference clip: a head in profile, talking, with a thought lifting
+       away from it. Same machinery as slot 1 - captured once and ping-ponged
+       - but keyed on the opposite thing. This clip is a bright silhouette on
+       black, where the handshake was a subject on a bright cyan sweep, so
+       here plain luminance does the separating. Measured over the clip: the
+       backdrop lies under 0.125 and the figure over 0.31, with only about 2%
+       of the frame in between.
+
+       Nothing touches the edges of this crop - the head's neck tapers out
+       above the bottom and the thought clears the top - so unlike slot 1
+       there is no edge fade to soften a cut that is not there. The crop does
+       stop short of the source's right-hand side on purpose: there is a small
+       decorative sparkle baked into the corner at x 0.88-0.94 that has no
+       business in a nav icon, and cropping is the cheapest way to be rid of
+       it. */
+    /* ---- Slot 4: telling a secret -----------------------------------------
+       Was the keyed speaking-head clip; now the Mixamo capture shipped as
+       insights-secret.fbx, struck in the same platinum as the rest. A whisper
+       is a better figure for this slot than a talking head was: insight is
+       something passed to you, not broadcast at you.
+
+       The export arrived at 20 MB, of which 18.6 was one embedded texture
+       these icons can never show - they draw in a single flat material. The
+       stripped file is 1.4 MB with the mesh, the 65-bone skeleton and the
+       10.9s clip intact. Unlike the door there is no built stand-in behind
+       this one: if the fetch fails the slot stays empty, and its label and
+       button still work. */
+    const SECRET_URL = './insights-secret.fbx';
+
+    function buildInsightsModel() {
+      const root = new THREE.Group();
+
+      /* ITS OWN MATERIAL, not the shared manMat. The door figure's tick writes
+         manMat.opacity every frame for its fade; a second figure sharing it
+         would mean whichever ticked last owned the opacity, and both would
+         flicker. Cloned after applyTheme has run so it starts on the current
+         theme, and registered so it follows later changes. */
+      const secretMat = manMat.clone();
+      SOLID_MATS.push(secretMat);
+
+      let mixer = null, clipDur = 1;
+
+      new FBXLoader().load(SECRET_URL, (rig) => {
+        rig.traverse((o) => {
+          if (o.isMesh || o.isSkinnedMesh) {
+            o.material = secretMat;
+            // Skinning deforms outside the bounds the mesh was built with.
+            o.frustumCulled = false;
+          }
+        });
+
+        const src = rig.animations && rig.animations[0];
+        if (!src) return;
+        // Same one-frame trim as the door: Mixamo closes a take by repeating
+        // frame 0, which puts a snap at the end of every loop. 327 frames.
+        const clip = THREE.AnimationUtils.subclip(src, 'secret', 0, 325, 30);
+        clipDur = clip.duration;
+        mixer = new THREE.AnimationMixer(rig);
+        mixer.clipAction(clip).play();
+
+        /* Sized and centred off the POSED skeleton rather than a bounding box.
+           Box3.setFromObject reads a skinned mesh in its bind pose and ignores
+           the skeleton entirely, and this rig is authored with the mesh centred
+           on the origin while the skeleton stands on it - trusting the box puts
+           him three quarters of a metre out. */
+        mixer.setTime(0);
+        rig.updateMatrixWorld(true);
+        const V = () => new THREE.Vector3();
+        const crown = rig.getObjectByName('mixamorigHeadTop_End');
+        const hips = rig.getObjectByName('mixamorigHips');
+        const head = rig.getObjectByName('mixamorigHead') || crown;
+
+        if (crown && hips) {
+          const yTop = crown.getWorldPosition(V()).y;
+          const yWaist = hips.getWorldPosition(V()).y;
+
+          /* A BUST, not a full figure. What carries this slot is his face and
+             the hand cupped beside it; at full height both were a few pixels
+             across and the legs were most of the cell. So the frame is set on
+             crown-to-waist instead, which roughly doubles him.
+
+             The legs cannot simply be pushed out of frame - there is no clip
+             rectangle here, every icon shares one canvas, and they would just
+             hang over the caption. They are faded out in the shader below. */
+          const FADE = (yTop - yWaist) * 0.34;      // soft band below the waist
+          const span = (yTop - yWaist) + FADE * 0.55;
+          const H = MODEL_BASE_SIZE * 0.94;
+          const k = H / (span || 1);
+          rig.scale.setScalar(k);
+          rig.position.y = -((yTop + yWaist) / 2 - FADE * 0.22) * k;
+
+          /* Centred on the WHOLE upper body across the whole clip, not on the
+             head and not on the first frame. Two corrections, both measured:
+
+             the head alone put him a third of the cell off to the right, because
+             his shoulder and the arm he raises swing well clear of it - the
+             bones ran -0.31..1.04 against a cell of +/-1.0, so he was over the
+             edge; and he leans a long way in across the 10.9s, so registering
+             on frame 0 walks him out of frame by the middle of it. */
+          const framed = ['mixamorigHead', 'mixamorigHeadTop_End',
+                          'mixamorigLeftShoulder', 'mixamorigRightShoulder',
+                          'mixamorigLeftHand', 'mixamorigRightHand',
+                          'mixamorigSpine', 'mixamorigHips']
+            .map((n) => rig.getObjectByName(n)).filter(Boolean);
+          let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+          for (let i = 0; i <= 24; i++) {
+            mixer.setTime((i / 24) * clipDur * 0.999);
+            rig.updateMatrixWorld(true);
+            for (const b of framed) {
+              const q = b.getWorldPosition(V());
+              x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x);
+              z0 = Math.min(z0, q.z); z1 = Math.max(z1, q.z);
+            }
+          }
+          /* NOT multiplied by k. The vertical measure above is taken before
+             the rig is scaled, so it has to be; these samples are taken after,
+             so they are already in scaled units and scaling them again pushed
+             him a seventh of the cell off centre. */
+          rig.position.x = -(x0 + x1) / 2;
+          rig.position.z = -(z0 + z1) / 2;
+          mixer.setTime(0);
+
+          /* The cut. Done in the shader, in the mesh's own local space, so it
+             rides the skinning and every transform above it without a single
+             per-frame update - a world-space clipping plane would have had to
+             be rewritten every frame as the icons float to the corners and
+             then dock into the bar.
+
+             A soft band rather than a hard edge, which is the same treatment
+             the keyed video icons already use where the reference clip runs
+             out of frame. */
+          const cutHigh = yWaist, cutLow = yWaist - FADE;
+          const NL = String.fromCharCode(10);
+          const V_HEAD = ['#include <common>', 'varying float vLocalY;'].join(NL);
+          const V_POS  = ['vLocalY = transformed.y;', '#include <project_vertex>'].join(NL);
+          const F_HEAD = ['#include <common>', 'varying float vLocalY;',
+                          'uniform float uCutLow;', 'uniform float uCutHigh;'].join(NL);
+          const F_CUT  = ['#include <dithering_fragment>',
+                          'float vCut = smoothstep(uCutLow, uCutHigh, vLocalY);',
+                          'if (vCut <= 0.003) discard;',
+                          'gl_FragColor.a *= vCut;'].join(NL);
+          secretMat.onBeforeCompile = (sh) => {
+            sh.uniforms.uCutLow = { value: cutLow };
+            sh.uniforms.uCutHigh = { value: cutHigh };
+            sh.vertexShader = sh.vertexShader
+              .replace('#include <common>', V_HEAD)
+              // project_vertex, not skinning_vertex: it is always present and
+              // sits after the skin, so `transformed` is the final local point.
+              .replace('#include <project_vertex>', V_POS);
+            sh.fragmentShader = sh.fragmentShader
+              .replace('#include <common>', F_HEAD)
+              .replace('#include <dithering_fragment>', F_CUT);
+          };
+          secretMat.needsUpdate = true;
+        }
+
+        root.add(rig);
+      }, undefined, () => { /* offline or file:// - the slot stays empty */ });
+
+      root.userData.tick = function (t, opacity) {
+        // Elapsed time, not a delta - setTime keeps the loop exact and comes
+        // back in step after a spell in a background tab rather than catching
+        // up through a burst of frames.
+        if (mixer) mixer.setTime(t % clipDur);
+        secretMat.opacity = opacity;
+      };
+
+      return root;
+    }
+
+    // Every slot is built and animated here; nothing is traced artwork any
+    // more, and nothing is fetched.
+    const MODEL_BUILDERS = [
+      () => buildDoorwayModel(),
+      () => buildHandshakeModel(),
+      () => buildConsultationModel(),
+      () => buildInsightsModel()
+    ];
+
+
+    // Each box gets a distinct resting tilt so the group reads as scattered
+    // and "settled," not mechanically identical — echoing the reference look.
+    // The Y component always turns the box's face toward screen-center: a
+    // positive angle turns it right (for boxes on the left), negative turns
+    // it left (for boxes on the right) — so every box reads face-on inward,
+    // never showing its side/back toward the viewport edge.
+    const BASE_ROT = [
+      { x: 0.09, y: 0.26, z: 0.05 },     // Services — top-left, faces right/inward
+      { x: -0.05, y: -0.20, z: -0.07 },  // Architect — top-right, faces left/inward
+      { x: 0.10, y: 0.23, z: -0.04 },    // Consultation — bottom-left, faces right/inward
+      { x: -0.07, y: -0.17, z: 0.06 }    // Insights — bottom-right, faces left/inward
+    ];
+    // Worst case a box ever tilts (base + mouse-parallax + hover kick), used
+    // to size the screen-edge margin so a rotated box's swung-out corner
+    // never leaves the viewport.
+    const MAX_TILT_RAD = 0.26 + 0.16 + 0.1;
+
+    const boxes = NAV_ITEMS.map((item, i) => {
+      const mesh = MODEL_BUILDERS[i]();
+      scene.add(mesh);
+      return { mesh, item, phase: i * 1.7 };
+    });
+    // Debug handle, the same idea as the studio's __studio: the doorway's
+    // timing can be read and stepped from the console.
+    window.__navBoxes = { boxes, scene, camera, renderer };
+    // Re-run now that every model has registered its materials: the call up
+    // beside the palette ran before any of them existed, so a page opened
+    // straight into the light theme would leave the video icon on the dark
+    // tint until the reader happened to toggle.
+    applyTheme(document.documentElement.dataset.theme);
+
+    const buttons = NAV_ITEMS.map((item) => {
+      const btn = document.createElement('button');
+      btn.className = 'nav-box-btn';
+      btn.type = 'button';
+      // Visually hidden (color: transparent in CSS) — the visible caption is
+      // the sibling .nav-box-label below; this just carries the click and
+      // the accessible name, over a hit-area that spans card + caption.
+      btn.textContent = item.label;
+      btn.setAttribute('aria-label', item.label);
+      btn.addEventListener('click', () => {
+        const el = document.querySelector(item.target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      root.appendChild(btn);
+      return btn;
+    });
+
+    const labels = NAV_ITEMS.map((item) => {
+      const el = document.createElement('div');
+      el.className = 'nav-box-label';
+      el.textContent = item.label;
+      el.setAttribute('aria-hidden', 'true');
+      root.appendChild(el);
+      return el;
+    });
+
+    let hoverIndex = -1;
+    buttons.forEach((btn, i) => {
+      btn.addEventListener('mouseenter', () => { hoverIndex = i; });
+      btn.addEventListener('mouseleave', () => { hoverIndex = -1; });
+      btn.addEventListener('focus', () => { hoverIndex = i; });
+      btn.addEventListener('blur', () => { hoverIndex = -1; });
+    });
+
+    const mouse = { x: 0, y: 0 };
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = (e.clientX / vpW()) * 2 - 1;
+      mouse.y = -(e.clientY / vpH()) * 2 + 1;
+    });
+
+    function resize() {
+      const w = vpW(), h = vpH();
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function getCornerTargets() {
+      const w = vpW(), h = vpH();
+      // Clears the navbar pill even when it's mid-transition into its wider
+      // docked state (up to ~100px tall) — 78px was only enough for the
+      // bare logo mark, not the expanded panel, and the two were colliding.
+      const topClearance = 150;
+      const bottomClearance = Math.min(60, h * 0.06) + 40; // room for the caption below each card
+      const usableH = h - topClearance - bottomClearance;
+      // Sized so the top and bottom rows can never collide, even on short
+      // (laptop-height) viewports — the size shrinks before the gap does.
+      const size = Math.max(60, Math.min(130, w * 0.095, usableH * 0.36));
+      // A tilted square's screen-space half-width is (size/2)*(|cosθ|+|sinθ|),
+      // not size/2 — so at the worst-case tilt the box needs meaningfully
+      // more clearance than its own half-size, or its outer corner clips
+      // past the viewport edge. +15% safety margin on top of the math.
+      const tiltFactor = (Math.abs(Math.cos(MAX_TILT_RAD)) + Math.abs(Math.sin(MAX_TILT_RAD))) / 2;
+      // Pulled in from the strict corner toward center — closer to the
+      // letter card rather than pinned way out at the viewport edge, but
+      // not so close it overlaps the card itself.
+      const inwardPull = w * 0.02;
+      const marginX = Math.max(size * tiltFactor * 1.3, 60) + inwardPull;
+      const topY = topClearance + size / 2;
+      const bottomY = h - bottomClearance - size / 2;
+      return [
+        { x: marginX, y: topY, size },                       // Projects — top-left
+        { x: w - marginX, y: topY, size },                   // About — top-right
+        { x: marginX, y: bottomY, size },                    // Gallery — bottom-left
+        { x: w - marginX, y: bottomY, size }                 // Contact — bottom-right
+      ];
+    }
+    // Independent dock anchor, top-right — deliberately not tied to the
+    // brand pill (see .nav-dock-pill / dockPill above): the two are meant
+    // to read as a separate, matching pair, not one joined bar.
+    //
+    // The pill's box is derived from what it actually has to contain rather
+    // than being a round number the icons are then centered in: each item is
+    // an icon with a caption *underneath* it, so the content block is taller
+    // than the icon alone, and centering the icon on the pill's midline left
+    // the caption hanging out past the bottom edge. Height is built up from
+    // the parts instead, and the icons hang off the top padding.
+    const DOCK_TOP = 22, DOCK_RIGHT = 22;
+    const DOCK_PAD = 26, DOCK_PAD_Y = 11;
+    const DOCK_ICON = 30, DOCK_GAP = 30;
+    const DOCK_CAPTION_BLOCK = 15; // caption gap + its line box, beneath each icon
+    const DOCK_HEIGHT = DOCK_PAD_Y * 2 + DOCK_ICON + DOCK_CAPTION_BLOCK;
+    // The docked caption's type, kept here because getDockEdges has to measure
+    // at exactly the size frame() renders at or the pill is sized for the
+    // wrong string width.
+    const DOCK_FONT_PX = 8, DOCK_TRACKING_EM = 0.06;
+    // Gutter of clear space between one docked caption and the next.
+    const DOCK_CAPTION_GUTTER = 12;
+
+    // Each caption is wider than the icon above it, and they differ from each
+    // other, so the row's real visual extent is set by the *captions*, not by
+    // the icons. Padding the icon row symmetrically therefore left the whole
+    // group sitting visibly off-centre inside the pill. Measure what the
+    // captions actually occupy at their docked size and derive from those.
+    //
+    // The icon *pitch* comes out of the same measurement. A fixed
+    // DOCK_ICON + DOCK_GAP (60px) only ever worked because the old captions
+    // were single words; the longest of these labels is over twice that wide,
+    // and at a fixed pitch adjacent captions would print straight through one
+    // another. The pitch is therefore the wider of the icon spacing and the
+    // widest caption plus a gutter — so the pill grows to fit whatever text
+    // these four items are given, and no caption can ever collide with its
+    // neighbour.
+    let dockEdges = null;
+    function getDockEdges() {
+      if (dockEdges) return dockEdges;
+      // Measured off body, not `root` — root is display:none whenever the
+      // boxes are hidden, and a hidden subtree measures zero.
+      const probe = document.createElement('div');
+      probe.className = 'nav-box-label';
+      probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;' +
+                            `font-size:${DOCK_FONT_PX}px;letter-spacing:${DOCK_TRACKING_EM}em;`;
+      document.body.appendChild(probe);
+      const widths = NAV_ITEMS.map((item) => {
+        probe.textContent = item.label;
+        return probe.getBoundingClientRect().width;
+      });
+      probe.remove();
+      const halves = widths.map((w) => w / 2);
+      dockEdges = {
+        left: Math.max(DOCK_ICON / 2, halves[0]),
+        right: Math.max(DOCK_ICON / 2, halves[halves.length - 1]),
+        pitch: Math.max(DOCK_ICON + DOCK_GAP, Math.max(...widths) + DOCK_CAPTION_GUTTER)
+      };
+      return dockEdges;
+    }
+    // A first measure can land before the webfont swaps in; drop it once the
+    // real face is ready so the next frame re-measures against it.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => { dockEdges = null; });
+    }
+
+    /* The OPEN box, which now has to hold the menu button as well as the four
+       items - the button keeps its place at the right-hand end whether the row
+       is out or not, so opening grows the pill leftwards away from it. */
+    function getDockBox() {
+      const e = getDockEdges();
+      const span = (NAV_ITEMS.length - 1) * e.pitch; // first→last icon centre
+      const width = DOCK_PAD + e.left + span + e.right + DOCK_PAD + MENU_W;
+      const left = vpW() - DOCK_RIGHT - width;
+      return { left, width, firstIconX: left + DOCK_PAD + e.left };
+    }
+    /* Where the button sits, and therefore where the icons collapse to. Fixed
+       to the right edge, so it does not move as the row opens and shuts. */
+    function getMenuAnchor() {
+      return { x: vpW() - DOCK_RIGHT - MENU_W / 2, y: DOCK_TOP + MENU_H / 2 };
+    }
+
+    function getDockedTargets() {
+      const { firstIconX } = getDockBox();
+      const e = getDockEdges();
+      const cy = DOCK_TOP + DOCK_PAD_Y + DOCK_ICON / 2;
+      return NAV_ITEMS.map((_, i) => ({
+        x: firstIconX + i * e.pitch, y: cy, size: DOCK_ICON
+      }));
+    }
+
+    const unprojectVec = new THREE.Vector3();
+    function screenToWorld(x, y, z) {
+      const w = vpW(), h = vpH();
+      unprojectVec.set((x / w) * 2 - 1, -(y / h) * 2 + 1, 0.5);
+      unprojectVec.unproject(camera);
+      const dir = unprojectVec.sub(camera.position).normalize();
+      const dist = (z - camera.position.z) / dir.z;
+      return camera.position.clone().add(dir.multiplyScalar(dist));
+    }
+
+    let sectionTop = 0;
+    function measure() {
+      const rect = section.getBoundingClientRect();
+      sectionTop = window.scrollY + rect.top;
+    }
+    measure();
+    window.addEventListener('resize', measure);
+
+    const clock = new THREE.Clock();
+    const tmpScale = new THREE.Vector3();
+
+    // The handshake icon learns its clip off a <video> that was never put in the
+    // document, so hiding the canvas does not stop it decoding the way hiding
+    // a DOM video would. Parked here alongside the render skip, for the same
+    // reason the render is skipped — and this is what keeps it parked through
+    // the whole first screenful, before the icons have any business moving.
+    let iconsPlaying = true;
+    function setIconsPlaying(on) {
+      if (on === iconsPlaying) return;
+      iconsPlaying = on;
+      boxes.forEach((b) => {
+        if (b.mesh.userData.setPlaying) b.mesh.userData.setPlaying(on);
+      });
+    }
+
+    function frame() {
+      requestAnimationFrame(frame);
+
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+
+      // Matches the letter paper's own reveal window exactly (see the
+      // Keyed to the letter's own two acts (see OpenLetterSection, which pins
+      // across a 200vh section): the flap unseals over roughly the first 40%
+      // of that scroll, the letter draws out over the next 40%. The boxes
+      // come in alongside the letter — not while the envelope is still
+      // sealed — then dock once it has been read. Docking still has to finish
+      // before the Featured Projects title scrolls in, or the mid-flight
+      // boxes cross over it.
+      const revealStart = sectionTop + vh * 1.00;
+      const revealEnd = sectionTop + vh * 1.45;
+      const dockStart = sectionTop + vh * 2.00;
+      const dockEnd = dockStart + vh * 0.35;
+
+      let opacity;
+      if (scrollY <= revealStart) opacity = 0;
+      else if (scrollY < revealEnd) opacity = (scrollY - revealStart) / (revealEnd - revealStart);
+      else opacity = 1;
+
+      let dock = (scrollY - dockStart) / (dockEnd - dockStart);
+      dock = Math.max(0, Math.min(1, dock));
+
+      // Eased here, not in CSS - see the note on `spread` above.
+      spread += ((menuOpen ? 1 : 0) - spread) * 0.16;
+      if (Math.abs((menuOpen ? 1 : 0) - spread) < 0.001) spread = menuOpen ? 1 : 0;
+
+      const isDocked = dock > 0.02;
+      dockPill.classList.toggle('docked', isDocked);
+
+      /* The button appears only once the icons have actually arrived, so it
+         never sits there competing with them while they are still floating. */
+      const anchor = getMenuAnchor();
+      menuBtn.classList.toggle('is-visible', dock > 0.55);
+      menuBtn.classList.toggle('is-open', menuOpen);
+      menuBtn.style.left = `${anchor.x - 15}px`;
+      menuBtn.style.top = `${anchor.y - 15}px`;
+      if (dock <= 0.55 && menuOpen) setMenu(false);   // scrolled back up
+
+      /* IT SQUEEZES BACK ON ITS OWN - the two ways a reader says they are done
+         with it. Off the bar, or scrolled on.
+
+         The region tested is the box the bar will occupy when fully open, not
+         the one it currently occupies: measured against the animating width,
+         a pointer resting where the row is about to arrive counts as outside
+         it, and the bar would shut again the instant it was opened. */
+      if (menuOpen) {
+        const full = getDockBox();
+        const out = ptrSeen && (
+          ptrX < full.left - MENU_SLOP ||
+          ptrX > full.left + full.width + MENU_SLOP ||
+          ptrY < DOCK_TOP - MENU_SLOP ||
+          ptrY > DOCK_TOP + DOCK_HEIGHT + MENU_SLOP);
+        if (out || Math.abs(scrollY - menuScrollAt) > MENU_SCROLL_SHUT) setMenu(false);
+      }
+
+      if (isDocked) {
+        const open = getDockBox();
+        dockPill.style.width = `${MENU_W + (open.width - MENU_W) * spread}px`;
+        dockPill.style.height = `${MENU_H + (DOCK_HEIGHT - MENU_H) * spread}px`;
+      } else {
+        dockPill.style.width = '0px';
+        dockPill.style.height = '0px';
+      }
+
+      /* HOW MUCH OF AN ICON THERE IS TO SEE. Floating, all of it. Docked and
+         shut, none - they are inside the button. Docked and open, all of it
+         again. One number so the models, the captions and the hit areas can
+         never disagree about it. */
+      const iconAlpha = opacity * (1 - dock * (1 - spread));
+
+      root.style.display = iconAlpha <= 0.001 ? 'none' : 'block';
+      // Skip the render call entirely while hidden — three separate WebGL
+      // contexts (this one, the featured cube, and briefly the loader) all
+      // rendering every frame regardless of visibility was the source of
+      // the occasional stutter/jank elsewhere on the page.
+      if (iconAlpha <= 0.001) { setIconsPlaying(false); return; }
+      setIconsPlaying(true);
+
+      const corners = getCornerTargets();
+      /* Collapsed into the button, then spread back out of it. At spread 0
+         every icon shares the button's centre and is a few pixels across,
+         which is what "stored in the menu" means geometrically. */
+      const rowTargets = getDockedTargets();
+      const docked = rowTargets.map((d) => ({
+        x: anchor.x + (d.x - anchor.x) * spread,
+        y: anchor.y + (d.y - anchor.y) * spread,
+        size: 8 + (d.size - 8) * spread
+      }));
+      const t = clock.getElapsedTime();
+      const idle = 1 - dock;
+      const revealScale = 0.7 + 0.3 * opacity;
+
+      // Shared across all four models — one write per frame instead of one
+      // per box.
+      platinumMat.opacity = iconAlpha;
+      platinumEdgeMat.opacity = iconAlpha * 0.95;
+      // The doorway figure's own alpha is written by its tick() below, which
+      // multiplies this reveal opacity by how far through the door it is.
+      manMat.opacity = iconAlpha;
+
+      const distance = camera.position.z;
+      const vFov = (camera.fov * Math.PI) / 180;
+      const visibleH = 2 * Math.tan(vFov / 2) * distance;
+      const pxToWorld = visibleH / vpH();
+      const worldToPx = 1 / pxToWorld;
+
+      boxes.forEach((b, i) => {
+        const c = corners[i], d = docked[i];
+        const px = c.x + (d.x - c.x) * dock;
+        let py = c.y + (d.y - c.y) * dock;
+        const sizePx = c.size + (d.size - c.size) * dock;
+
+        // The float/bob is applied here, in screen space, *before* both the
+        // mesh's world position and the label/button positions are derived
+        // from (px, py) — so the caption and the click target move with
+        // exactly the same floating motion as the 3D model, instead of the
+        // model bobbing while the caption sits still beneath it.
+        const bobPx = Math.sin(t * 1.2 + b.phase) * 8 * idle;
+        py -= bobPx;
+
+        const worldPos = screenToWorld(px, py, 0);
+        b.mesh.position.lerp(worldPos, 0.22);
+
+        const targetScale = ((sizePx * pxToWorld) / MODEL_BASE_SIZE) * revealScale;
+        tmpScale.set(targetScale, targetScale, targetScale);
+        b.mesh.scale.lerp(tmpScale, 0.22);
+
+        const base = BASE_ROT[i];
+        const hover = hoverIndex === i ? 1 : 0;
+        const targetRotX = base.x * idle - mouse.y * 0.16 * idle;
+        const targetRotY = base.y * idle + mouse.x * 0.16 * idle + hover * Math.sin(t * 5) * 0.1;
+        const targetRotZ = base.z * idle + Math.sin(t * 0.5 + b.phase) * 0.04 * idle;
+        b.mesh.rotation.x += (targetRotX - b.mesh.rotation.x) * 0.08;
+        b.mesh.rotation.y += (targetRotY - b.mesh.rotation.y) * 0.08;
+        b.mesh.rotation.z += (targetRotZ - b.mesh.rotation.z) * 0.08;
+
+        b.mesh.visible = true;
+
+        // Slot 0 carries a looping internal animation (the door and the
+        // figure). It runs on this same rAF pass, so it is visibility-gated
+        // for free: the early return above stops it along with the render
+        // whenever the group is hidden.
+        if (b.mesh.userData.tick) b.mesh.userData.tick(t, opacity);
+
+        // Caption stays visible once docked too — just shrinks and tucks in
+        // closer beneath the now-smaller icon instead of fading away.
+        // Captions belong to the open row; collapsed, there is nothing to label.
+        const labelOpacity = iconAlpha * (dock > 0.02 ? spread : 1);
+        const labelGap = 10 - dock * 6;
+        const label = labels[i];
+        label.style.left = `${px}px`;
+        label.style.top = `${py + sizePx / 2 + labelGap}px`;
+        label.style.transform = 'translateX(-50%)';
+        label.style.fontSize = `${13 - dock * (13 - DOCK_FONT_PX)}px`;
+        label.style.letterSpacing = `${0.16 - dock * (0.16 - DOCK_TRACKING_EM)}em`;
+        label.style.opacity = labelOpacity;
+
+        // The click target spans the card plus the caption beneath it, for
+        // a bigger, easier hit-area than the card alone.
+        const btn = buttons[i];
+        const hitH = sizePx + (labelOpacity > 0.05 ? labelGap + 18 : 0);
+        btn.style.left = `${px - sizePx / 2}px`;
+        btn.style.top = `${py - sizePx / 2}px`;
+        btn.style.width = `${sizePx}px`;
+        btn.style.height = `${hitH}px`;
+        btn.style.opacity = iconAlpha;
+        btn.style.pointerEvents = iconAlpha > 0.4 ? 'auto' : 'none';
+        btn.classList.toggle('is-docked', dock > 0.5);
+      });
+
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  initNavBoxes();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     FEATURED PROJECTS CUBE — a pinned, scroll-scrubbed Three.js cube built
+     from six planes sharing one texture (box/collage.png). It sits closed
+     and completely still until scrolled to; the first half of the pinned
+     scroll range blows it apart into an axonometric "exploded diagram"
+     (each face flying out along its own normal, staggered so it reads as
+     a wave), and the second half is a dwell where it stays fully open and
+     the four side panels revolve around the vertical axis while the top
+     and bottom stay fixed — a "lazy susan" beneath fixed caps — before the
+     page finally releases and scrolls on.
+════════════════════════════════════════════════════════════════════════ -->
+<script type="module">
+  import * as THREE from 'three';
+
+  function initFeaturedCube() {
+    const section = document.querySelector('.featured-cube-section');
+    const stageEl = document.querySelector('.featured-cube-stage');
+    const mount = document.querySelector('.featured-cube-canvas-mount');
+    const titleEl = document.querySelector('.featured-cube-title');
+    // setTimeout, not requestAnimationFrame — see the matching note in
+    // initNavBoxes above.
+    if (!section || !stageEl || !mount) { setTimeout(initFeaturedCube, 50); return; }
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    mount.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 200);
+    camera.position.set(0, 0, 15);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1006, 1.7));
+    const key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(4, 6, 8); scene.add(key);
+    const rim = new THREE.DirectionalLight(0xE0B480, 1.1); rim.position.set(-6, -3, 5); scene.add(rim);
+    const fill = new THREE.DirectionalLight(0xffffff, 0.4); fill.position.set(0, -6, -4); scene.add(fill);
+
+    const texLoader = new THREE.TextureLoader();
+    const B64 = window.NAV_PHOTO_B64 || {};
+    function loadTex(key, fallback) {
+      const tex = texLoader.load(B64[key] || fallback);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    }
+    // The caps keep the original collage; each of the four sides gets its own
+    // so the cube reads as four different projects rather than one repeated.
+    /* Straight from a URL rather than through the embedded base64 copies: this
+       one has no b64 twin, so it is the single face that needs the page to be
+       SERVED rather than opened as a file. Everything else still works either
+       way - see the note at the top of nav-photos.b64.js. */
+    function loadUrlTex(url) {
+      const t = texLoader.load(url);
+      t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    }
+    const collageTex = loadTex('collage', './box/collage.jpg');
+    const sideTex = [
+      // Front — Mr. Rajendra's kitchen, matching ALL_PROJECTS[0].
+      loadUrlTex('./projects/rajendra/slide-07.jpg'),
+      loadTex('side1', './box/collage1.jpg'),
+      loadTex('side2', './box/collage2.jpg'),
+      loadTex('side3', './box/collage3.jpg')
+    ];
+
+    // Two nested groups: cubeGroup carries the shared idle-spin / view
+    // rotation (everything, caps included); sidesGroup — a child of it —
+    // carries only the four walls, and gets an extra continuous spin once
+    // fully open. Top and bottom are added straight to cubeGroup, so that
+    // extra spin never touches them.
+    const cubeGroup = new THREE.Group();
+    // Shifted down so the exploded top face clears the "Featured Projects"
+    // title sitting above it, instead of growing straight up into it.
+    cubeGroup.position.y = -0.9;
+    scene.add(cubeGroup);
+    const sidesGroup = new THREE.Group();
+    cubeGroup.add(sidesGroup);
+
+    const size = 3.1;
+    const half = size / 2;
+    // DoubleSide so a panel is never simply culled out of existence while it
+    // swings through edge-on during the formation move — with the default
+    // FrontSide, any panel momentarily facing away drops to a bare outline.
+    const makeFaceMat = (map) => new THREE.MeshStandardMaterial({ map, roughness: 0.5, metalness: 0.12, side: THREE.DoubleSide });
+    // One material per side so each carries its own collage.
+    const sideMats = sideTex.map(makeFaceMat);
+    // Pale gold linework washes out on the light theme's paper ground, so the
+    // edges and the dashed guides deepen to a copper alongside it.
+    const EDGE_GOLD = 0xE0B480, EDGE_GOLD_LIGHT = 0x8A5A2B;
+    const edgeMat = new THREE.LineBasicMaterial({ color: EDGE_GOLD, transparent: true, opacity: 0.75 });
+    const guideMats = [];
+    const guideMat = () => {
+      const m = new THREE.LineDashedMaterial({ color: EDGE_GOLD, dashSize: 0.14, gapSize: 0.1, transparent: true, opacity: 0 });
+      guideMats.push(m);
+      return m;
+    };
+    function applyCubeTheme(mode) {
+      const c = mode === 'light' ? EDGE_GOLD_LIGHT : EDGE_GOLD;
+      edgeMat.color.setHex(c);
+      if (typeof capEdgeMat !== 'undefined') capEdgeMat.color.setHex(c);
+      guideMats.forEach((m) => m.color.setHex(c));
+    }
+    window.addEventListener('ee-theme', (e) => applyCubeTheme(e.detail));
+
+    function makeFace(parent, mat, emat) {
+      const geo = new THREE.PlaneGeometry(size, size);
+      const mesh = new THREE.Mesh(geo, mat);
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), emat);
+      const group = new THREE.Group();
+      group.add(mesh, edges);
+      parent.add(group);
+      return group;
+    }
+
+    // The caps get their own material (still the original collage) purely so
+    // they can fade out on their own once the four walls break away into the
+    // row — sharing a side's material would dim that wall along with them.
+    const capMat = makeFaceMat(collageTex); capMat.transparent = true;
+    const capEdgeMat = edgeMat.clone();
+    // Now that capEdgeMat exists, sync everything to whatever theme is set.
+    applyCubeTheme(document.documentElement.dataset.theme);
+
+    const SIDE_KEYS = ['front', 'back', 'left', 'right'];
+    const CAP_KEYS = ['top', 'bottom'];
+    const FACE_KEYS = [...SIDE_KEYS, ...CAP_KEYS];
+    const faces = {};
+    SIDE_KEYS.forEach((k, i) => { faces[k] = makeFace(sidesGroup, sideMats[i], edgeMat); });
+    CAP_KEYS.forEach((k) => { faces[k] = makeFace(cubeGroup, capMat, capEdgeMat); });
+
+    // Each face keeps its own natural orientation the whole time — only its
+    // distance from center changes. That's what reads as an "exploded
+    // assembly" rather than a flattened unfold: every panel is still doing
+    // the job it does on the cube, just pulled apart to show how it fits.
+    const CLOSED = {
+      front:  { p: [0, 0, half],  r: [0, 0, 0] },
+      back:   { p: [0, 0, -half], r: [0, Math.PI, 0] },
+      left:   { p: [-half, 0, 0], r: [0, -Math.PI / 2, 0] },
+      right:  { p: [half, 0, 0],  r: [0, Math.PI / 2, 0] },
+      top:    { p: [0, half, 0],  r: [-Math.PI / 2, 0, 0] },
+      bottom: { p: [0, -half, 0], r: [Math.PI / 2, 0, 0] }
+    };
+    const NORMAL = {
+      front: [0, 0, 1], back: [0, 0, -1], left: [-1, 0, 0],
+      right: [1, 0, 0], top: [0, 1, 0], bottom: [0, -1, 0]
+    };
+    // Unit corners of a face, used to bound its projection on screen.
+    const CORNERS = [[-1, 1], [1, 1], [1, -1], [-1, -1]];
+    // Recomputed every frame from the live camera frustum (not a fixed
+    // constant) — a face displaced along X or Y collapses to a flat sliver
+    // in the perpendicular axis, so its worst-case reach is exactly
+    // half + explodeDist. A flat "80% of the frustum" cutoff only kept the
+    // top face clear of the title at the ~900px viewport height it was
+    // tuned against — the title's own footprint is a fixed pixel size
+    // (padding + text), so on a shorter browser window it eats a bigger
+    // share of that same frustum and the tilted top face's corners (which
+    // reach further up than its own center once the axonometric view angle
+    // is applied) can climb into it. Measuring the title's actual pixel
+    // height each frame and converting *that* to world units — instead of
+    // guessing a flat percentage — keeps the reserved headroom correct at
+    // any viewport height, not just the one this was last tested at.
+    function getExplodeDist() {
+      const dist = camera.position.z;
+      const vFov = (camera.fov * Math.PI) / 180;
+      const visibleH = 2 * Math.tan(vFov / 2) * dist;
+      const visibleW = visibleH * camera.aspect;
+      const vh = window.innerHeight;
+      const worldPerPx = visibleH / vh;
+      const titleBottomPx = (titleEl ? titleEl.getBoundingClientRect().bottom : 220) + 64; // + breathing room
+      // cubeGroup sits 0.9 below world center (see above), which eats into
+      // the *upward* headroom specifically — subtract it so the top face
+      // still can't reach the title even at full explosion.
+      // The top face's own corners swing higher than its center once the
+      // axonometric tilt is applied (it's a flat plane pivoting into view,
+      // not a point) — an extra ~0.7 world units at these tilt angles,
+      // measured directly rather than derived, so budget for it too.
+      const safeHalfH = (visibleH / 2) - titleBottomPx * worldPerPx - 0.9 - 1.0;
+      const safeHalfW = (visibleW / 2) * 0.86;
+      return Math.max(0.6, Math.min(safeHalfH, safeHalfW) - half);
+    }
+
+    const guideLines = {};
+    FACE_KEYS.forEach((k) => {
+      const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0)]);
+      const line = new THREE.Line(geo, guideMat());
+      scene.add(line);
+      guideLines[k] = line;
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    // Where the four walls end up once they stop orbiting: a flat, evenly
+    // spaced, camera-facing row, sized off the live frustum so it fills the
+    // width on any viewport instead of being a fixed world-space number.
+    function getFormationLayout() {
+      const vFov = (camera.fov * Math.PI) / 180;
+      const visibleH = 2 * Math.tan(vFov / 2) * camera.position.z;
+      const visibleW = visibleH * camera.aspect;
+      // The row only claims the left ~74% — the rest is the right-hand margin
+      // the "More Projects" arrow sits in, beside the last panel.
+      // The composition is laid out as one band across almost the full frame
+      // — four panels, then the arrow in its own slot at the right end —
+      // rather than centring the row and letting the arrow hang off it. That
+      // earlier version left a dead strip of frame past the arrow; this way
+      // the whole width does work, which also buys real air between panels.
+      const usableW = visibleW * 0.94;
+      const leftEdge = -usableW / 2;
+      const arrowSlot = Math.max(1.7, visibleW * 0.12);
+      const rowW = usableW - arrowSlot;
+      const GAP_RATIO = 0.30;                       // gap as a fraction of a panel's width
+      const cardW = rowW / (4 + 3 * GAP_RATIO);
+      const gap = cardW * GAP_RATIO;
+
+      // Height gets a real budget rather than a flat fraction: the title's
+      // footprint is a fixed pixel size, so on a short window it eats a much
+      // bigger share of the frustum and a percentage-based row would grow
+      // straight into it. Measure the gap between the title and the bottom
+      // caption strip and fit the row inside it, centred on FORM_CENTER_Y.
+      const mh = mount.clientHeight || 1;
+      const worldPerPx = visibleH / mh;
+      const titleBottom = (titleEl ? titleEl.getBoundingClientRect().bottom : 190) + 22;
+      const topLimit = visibleH / 2 - titleBottom * worldPerPx;
+      const bottomLimit = -visibleH / 2 + 64 * worldPerPx; // room for the names below
+      const budget = Math.min(topLimit - FORM_CENTER_Y, FORM_CENTER_Y - bottomLimit) * 2;
+      const cardH = Math.max(1.1, Math.min(cardW * 1.32, budget));
+      return {
+        visibleW, visibleH, cardW, cardH, gap, rowW,
+        step: cardW + gap,
+        firstX: leftEdge + cardW / 2,            // centre of panel 0
+        arrowX: usableW / 2 - arrowSlot / 2      // centre of the arrow's slot
+      };
+    }
+
+    /* These nodes are rendered by React, and React is free to throw them away
+       and build new ones - a re-render of this section replaces the whole
+       overlay. Holding references from module start therefore rots: the module
+       carries on writing positions and opacities to detached nodes while the
+       ones actually on screen sit untouched, which looks exactly like the
+       animation having silently died. So the handles are re-fetched whenever
+       the set it holds is no longer in the document. */
+    let domCache = null;
+    function overlay() {
+      if (!domCache || !domCache.layer || !domCache.layer.isConnected) {
+        domCache = {
+          layer: document.querySelector('.formation-layer'),
+          captions: [...document.querySelectorAll('.formation-caption')],
+          cards: [...document.querySelectorAll('.formation-card')],
+          rail: [...document.querySelectorAll('.rail-card')],
+          on: document.querySelector('.rail-zone-on'),
+          back: document.querySelector('.rail-zone-back')
+        };
+      }
+      return domCache;
+    }
+
+    /* Travel is held here rather than derived from scroll position: the reader
+       asks for it by putting the pointer at an edge, and it stays where they
+       left it. `railTarget` is what the edges move; `railOffset` chases it, so
+       the strip glides instead of tracking the pointer frame for frame. */
+    let railOffset = 0, railTarget = 0, railDir = 0;
+    /* Delegated from the document rather than bound to the zones themselves,
+       for the same reason: a listener attached to a node React later discards
+       goes with it. mouseover/mouseout are used because they bubble - the
+       enter/leave pair does not, so it cannot be delegated. */
+    document.addEventListener('mouseover', (e) => {
+      const t = e.target instanceof Element ? e.target : null;
+      if (!t) return;
+      if (t.closest('.rail-zone-on')) railDir = 1;
+      else if (t.closest('.rail-zone-back')) railDir = -1;
+    });
+    document.addEventListener('mouseout', (e) => {
+      const t = e.target instanceof Element ? e.target : null;
+      if (t && (t.closest('.rail-zone-on') || t.closest('.rail-zone-back'))) railDir = 0;
+    });
+    const projVec = new THREE.Vector3();
+
+    function resize() {
+      const w = mount.clientWidth || window.innerWidth;
+      const h = mount.clientHeight || window.innerHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    /* The window is not the thing that changes. This canvas fills a mount
+       inside the page, and that mount loses the scrollbar's width the moment
+       the document grows tall enough to need one - which happens after this
+       runs, as the rest of the page renders, and fires no resize event at all.
+       The canvas was left sized to the wider pre-scrollbar layout while
+       toScreen() divided by the mount's real width, so every projected x came
+       out about 2% short and the DOM overlays drifted further left the further
+       right they sat. Watching the element itself is the only way to catch it. */
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(mount);
+
+    let sectionHeight = 0;
+    function measure() {
+      sectionHeight = section.getBoundingClientRect().height;
+    }
+    measure();
+    window.addEventListener('resize', measure);
+
+    const clock = new THREE.Clock();
+    // A fixed resting tilt — no pre-open spin at all. The cube sits
+    // completely still, closed or mid-open, until it's fully open, at
+    // which point (and only then) the walls start their revolve.
+    // The open cube's viewing angle - the axonometric it holds from the moment
+    // it is on screen until the formation unwinds it.
+    const VIEW_ROT = { x: -0.4, y: 0.58 };
+    const REVOLVE_SPEED = 0.5; // rad/s — a full turn every ~12s
+    // Scroll window (as a fraction of the pinned range) over which the open
+    // cube resolves into the flat row of project panels. Deliberately wide —
+    // combined with the taller section this sits in, the move now plays out
+    // over roughly twice the scroll distance it used to, which is what stops
+    // it feeling rushed.
+    /* The pin only has to carry the cube: open, revolve, form the row. The
+       rail is no longer on the scroll timeline, so the section does not need
+       the extra height it did, and a reader who does not reach for the edge
+       passes straight through to the stats. */
+    const FORM_START = 0.14, FORM_END = 0.52;
+    // Per-panel offset inside that window, so the four peel away in sequence.
+    const FORM_STAGGER = (FORM_END - FORM_START) * 0.12;
+    function sideFormP(idx, p) {
+      const start = FORM_START + idx * FORM_STAGGER;
+      const end = FORM_END - (SIDE_KEYS.length - 1 - idx) * FORM_STAGGER;
+      return smoothstep(start, end, p);
+    }
+    const FORM_CENTER_Y = -0.35; // row sits just below centre, leaving room for the names
+    let spinY = 0;               // running orbit angle, unwound by the formation
+    const faceCur = {}; FACE_KEYS.forEach((k) => { faceCur[k] = 0; });
+    const tmpFrom = new THREE.Vector3();
+    const tmpTo = new THREE.Vector3();
+
+    function smoothstep(edge0, edge1, x) {
+      const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+      return t * t * (3 - 2 * t);
+    }
+
+    // Continuous scroll-scrub (matching every other pinned section on this
+    // page — the studio scene, the letter reveal, the nav-box
+    // float/dock) rather than intercepting wheel events: that's the more
+    // fragile approach and the one that was producing a bad-feeling, glitchy
+    // animation. Ordinary scroll position drives everything here instead.
+    let wasFixed = false;
+
+    function frame() {
+      requestAnimationFrame(frame);
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const vh = window.innerHeight;
+      const rect = section.getBoundingClientRect();
+      const pinRange = Math.max(1, sectionHeight - vh);
+
+      // Skip the whole update (and the render call) while the section is
+      // nowhere near the viewport — three separate WebGL contexts all
+      // rendering full-time regardless of visibility was the source of the
+      // occasional stutter/jank elsewhere on the page.
+      const nearViewport = rect.bottom > -vh * 0.5 && rect.top < vh * 1.5;
+      if (!nearViewport) {
+        // Park the stage before bailing — see the matching note in
+        // TeamCarousel. A stage left `fixed` after the reader jumps away
+        // stays glued to the viewport over whatever they landed on.
+        if (wasFixed) {
+          const passed = rect.top < 0;
+          stageEl.style.position = 'absolute';
+          stageEl.style.top = passed ? 'auto' : '0';
+          stageEl.style.bottom = passed ? '0' : 'auto';
+          wasFixed = false;
+        }
+        return;
+      }
+
+      // Same manual-pin technique used elsewhere on this page: CSS `sticky`
+      // is unreliable here because of the site's `overflow-x: hidden`. A
+      // couple of pixels of hysteresis around the pin boundary keeps a
+      // sub-pixel scroll wobble from flickering the position back and forth.
+      const hyst = wasFixed ? 2 : -2;
+      if (rect.top > hyst) {
+        stageEl.style.position = 'absolute'; stageEl.style.top = '0'; stageEl.style.bottom = 'auto';
+        wasFixed = false;
+      } else if (rect.top <= hyst && rect.top > -pinRange - hyst) {
+        stageEl.style.position = 'fixed'; stageEl.style.top = '0'; stageEl.style.bottom = 'auto';
+        wasFixed = true;
+      } else {
+        stageEl.style.position = 'absolute'; stageEl.style.top = 'auto'; stageEl.style.bottom = '0';
+        wasFixed = false;
+      }
+
+      let p = (0 - rect.top) / pinRange;
+      p = Math.max(0, Math.min(1, p));
+
+      // The burst plays out across roughly the first third of the pinned
+      // scroll range — quick enough that it's fully open within a couple of
+      // scroll gestures instead of feeling like a long wind-up — and the
+      // remaining two-thirds is a dwell where the cube stays fully open and
+      // the walls revolve, so there's real time to watch it before the page
+      // finally releases.
+      // The section is much taller now (see .featured-cube-section), so this
+      // fraction is smaller than it looks: it still resolves the burst in
+      // about the same amount of actual scrolling as before — it's the
+      // phases after it that got the extra room.
+      /* The cube is open the whole time and never closes. There is no burst
+         beat any more: a scroll-driven explosion meant the section was
+         approached as a shut box and only became the axonometric once you
+         had scrolled into it, and the axonometric - walls apart, rooms on
+         show - is the thing this section is actually for.
+
+         So the faces sit at full separation from the outset, and the only
+         thing held back on the approach is the revolve. */
+      const explodeP = 1;
+
+      // Third act: once the cube is open and has had a turn or two to
+      // revolve, the four walls peel out of the orbit and settle into a flat
+      // row of panels with their project names beneath. Everything that made
+      // it read as a cube — the view tilt, the orbit, the caps, the dashed
+      // guide lines — unwinds across this same window.
+      const formP = smoothstep(FORM_START, FORM_END, p);
+      const layout = getFormationLayout();
+
+      // Always the open view; the formation unwinds it to face-on at the end.
+      cubeGroup.rotation.x = VIEW_ROT.x * (1 - formP);
+      cubeGroup.rotation.y = VIEW_ROT.y * (1 - formP);
+      cubeGroup.position.y = lerp(-0.9, FORM_CENTER_Y, formP);
+
+      /* The strip moves only while an edge is held. One slot further than the
+         project count, so the last one comes to rest inside the band that
+         reads at full strength rather than stopping in the right-hand slot
+         where the dimming still has hold of it. */
+      const railMax = (RAIL_PROJECTS.length + 1) * getFormationLayout().step;
+      if (formP > 0.98 && railDir !== 0) {
+        railTarget = Math.max(0, Math.min(railMax, railTarget + railDir * dt * railMax / 9));
+      }
+      // Wound back in as the row breaks up, so scrolling away and returning
+      // never lands mid-rail with the cube half-formed.
+      if (formP < 0.9) { railTarget = 0; }
+      railOffset += (railTarget - railOffset) * Math.min(1, dt * 6);
+      cubeGroup.position.x = -railOffset;
+
+      // Keep the orbit angle in its own accumulator so the formation can
+      // unwind it to face-on without the running total fighting back. It's
+      // wrapped to one turn because it grows in real time, not with scroll:
+      // left unbounded, the residual `spin * (1 - formP)` mid-unwind depends
+      // on how many seconds the reader happened to watch the revolve, and a
+      // large one turns the panels far enough to be back-face culled — they
+      // drop to bare outlines partway through the move.
+      /* Still until the section is genuinely reached. `p` only leaves 0 once
+         the stage pins, so on the approach - where the cube is already open
+         and in view - the accumulator simply does not advance and the walls
+         hang motionless. The moment the section takes the viewport, they
+         start turning. */
+      if (p > 0 && formP < 1) {
+        spinY = (spinY + dt * REVOLVE_SPEED) % (Math.PI * 2);
+      }
+      // Unwind the short way round: past half a turn it's closer to keep
+      // going forward to a full turn than to rewind to zero.
+      const spinTarget = spinY > Math.PI ? Math.PI * 2 : 0;
+      sidesGroup.rotation.y = lerp(spinY, spinTarget, formP);
+
+      const explodeDist = getExplodeDist();
+
+      FACE_KEYS.forEach((key, i) => {
+        // Staggered per-face window so the burst reads as a wave, not a
+        // single mechanical snap.
+        const start = 0.1 + i * 0.05;
+        const end = 0.7 + i * 0.05;
+        const e = smoothstep(start, end, explodeP);
+        faceCur[key] = e;
+
+        const closed = CLOSED[key];
+        const n = NORMAL[key];
+        const group = faces[key];
+        const ex = closed.p[0] + n[0] * explodeDist * e;
+        const ey = closed.p[1] + n[1] * explodeDist * e;
+        const ez = closed.p[2] + n[2] * explodeDist * e;
+
+        const sideIdx = SIDE_KEYS.indexOf(key);
+        if (sideIdx !== -1) {
+          // Each panel gets its own slightly offset window inside the shared
+          // formation range, so they peel out of the orbit and land one after
+          // another instead of snapping into place as one block — that
+          // sequencing is most of what makes the move read as composed
+          // rather than mechanical. All four still finish by FORM_END.
+          const f = sideFormP(sideIdx, p);
+          // A shallow push toward the camera at the midpoint of the flight,
+          // easing back to zero on arrival: the panels travel on a gentle arc
+          // instead of sliding flat across the frame.
+          const zArc = Math.sin(f * Math.PI) * 1.15;
+          group.position.set(
+            lerp(ex, layout.firstX + sideIdx * layout.step, f),
+            lerp(ey, 0, f),
+            lerp(ez, 0, f) + zArc
+          );
+          group.rotation.set(
+            lerp(closed.r[0], 0, f),
+            lerp(closed.r[1], 0, f),
+            lerp(closed.r[2], 0, f)
+          );
+          group.scale.set(
+            lerp(1, layout.cardW / size, f),
+            lerp(1, layout.cardH / size, f),
+            1
+          );
+        } else {
+          group.position.set(ex, ey, ez);
+          group.rotation.set(closed.r[0], closed.r[1], closed.r[2]);
+          // Caps have no place in the row — they drift on out and fade.
+          group.position.multiplyScalar(1 + formP * 0.6);
+        }
+
+        // Guide lines are scene-level (not nested in cubeGroup), so both
+        // ends need true world coordinates — a face's world position must
+        // go through getWorldPosition to pick up cubeGroup's translation
+        // and rotation (and, for the walls, sidesGroup's extra spin too).
+        const line = guideLines[key];
+        tmpFrom.set(0, 0, 0);
+        cubeGroup.getWorldPosition(tmpFrom);
+        group.getWorldPosition(tmpTo);
+        line.geometry.setFromPoints([tmpFrom, tmpTo]);
+        line.computeLineDistances();
+        line.material.opacity = e * 0.55 * (1 - formP);
+      });
+
+      capMat.opacity = 1 - formP;
+      capEdgeMat.opacity = 0.75 * (1 - formP);
+      faces.top.visible = faces.bottom.visible = formP < 0.99;
+
+      // The captions and the arrow are HTML, so they're placed by projecting
+      // each panel's own world position to screen — that way they stay glued
+      // to the panels no matter the viewport or how the row is sized.
+      const ov = overlay();
+      if (ov.layer) {
+        ov.layer.style.opacity = formP;
+        ov.layer.style.pointerEvents = formP > 0.9 ? 'auto' : 'none';
+        if (formP > 0.01) {
+          scene.updateMatrixWorld(true);
+          const mw = mount.clientWidth, mh = mount.clientHeight;
+          const toScreen = (v) => {
+            v.project(camera);
+            return { x: (v.x * 0.5 + 0.5) * mw, y: (-v.y * 0.5 + 0.5) * mh };
+          };
+          SIDE_KEYS.forEach((key, idx) => {
+            const cap = ov.captions[idx];
+            if (!cap) return;
+            // Local (0, -half, 0) is the panel's own bottom edge, so this
+            // follows the scale-up as the row forms rather than guessing.
+            projVec.set(0, -half, 0);
+            faces[key].localToWorld(projVec);
+            const s = toScreen(projVec);
+            cap.style.left = `${s.x}px`;
+            cap.style.top = `${s.y + 22}px`;
+            // Each name waits for its own panel to nearly land, so the names
+            // arrive in the same order the panels do.
+            const landed = smoothstep(0.72, 1.0, sideFormP(idx, p));
+            cap.style.opacity = landed;
+
+            /* The hover card is laid over the same panel. Its box comes from
+               the panel's own projected corners rather than from the layout
+               numbers, so it tracks the scale-up and can never drift off the
+               picture. Kept inert until the panel has essentially landed -
+               a hit-box over a panel that is still flying would catch the
+               pointer somewhere the reader cannot see anything. */
+            const card = ov.cards[idx];
+            if (card) {
+              /* All four corners, not two. While the row is still forming the
+                 panel is not yet square to the camera, so it projects as a
+                 trapezium - and a box built from one diagonal pair then sits
+                 inside that shape and leaves a wedge of photograph showing
+                 down one edge. Taking min/max across every corner bounds the
+                 quad whatever its orientation. */
+              let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+              CORNERS.forEach(([cx, cy]) => {
+                projVec.set(cx * half, cy * half, 0);
+                faces[key].localToWorld(projVec);
+                const s2 = toScreen(projVec);
+                if (s2.x < x0) x0 = s2.x;
+                if (s2.y < y0) y0 = s2.y;
+                if (s2.x > x1) x1 = s2.x;
+                if (s2.y > y1) y1 = s2.y;
+              });
+              /* Bled outward before use. The projection is exact to the
+                 geometry, but what is actually drawn is wider than that: the
+                 panel carries an EdgesGeometry outline that sits proud of its
+                 own boundary, and the raster antialiases a further part-pixel
+                 beyond. Measured against the rendered frame, a panel spanning
+                 21..135 was being boxed at 20..132 - hence the sliver of
+                 photograph down the right edge. Scaled rather than fixed so it
+                 still covers when the row is drawn large. */
+              const bleed = 2;
+              const bx = x0 - bleed, by = y0 - bleed;
+              const bw = (x1 - x0) + bleed * 2, bh = (y1 - y0) + bleed * 2;
+              card.style.left = `${bx}px`;
+              card.style.top = `${by}px`;
+              card.style.width = `${bw}px`;
+              card.style.height = `${bh}px`;
+              // The plane's type is sized off the panel's own width, because
+              // the row scales with the viewport - a fixed size that suits a
+              // 320px panel is unreadable on a 110px one.
+              card.style.setProperty('--cw', `${bw}px`);
+
+              /* Live only once the WHOLE row has settled, not merely once this
+                 panel has. `landed` is per-panel and the first one lands well
+                 before the last, but the view rotation that squares the panels
+                 up is driven by the shared formP - so a panel could be
+                 hoverable while still turned, where no rectangle can cover it
+                 exactly. Waiting for both is what guarantees the plane sits
+                 flush on the photograph. */
+              const live = landed > 0.98 && formP > 0.995;
+              card.style.pointerEvents = live ? 'auto' : 'none';
+              card.style.opacity = live ? 1 : 0;
+            }
+          });
+          /* The rail. Every card past the fourth is placed at its own slot in
+             the same world layout the panels use, then projected exactly as
+             they are - so the DOM cards and the WebGL panels cannot drift
+             apart no matter what the camera is doing. Travel is applied to
+             cubeGroup itself, which moves panels and cards together as one
+             strip. */
+          const zonesLive = formP > 0.98;
+          [ov.back, ov.on].forEach((z) => {
+            if (!z) return;
+            z.style.pointerEvents = zonesLive ? 'auto' : 'none';
+          });
+          if (ov.back) ov.back.style.opacity = zonesLive && railOffset > 4 ? 1 : 0;
+          if (ov.on) ov.on.style.opacity = zonesLive && railOffset < railMax - 4 ? 1 : 0;
+
+          ov.rail.forEach((card, i) => {
+            const slot = layout.firstX + (i + 4) * layout.step;
+            let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+            CORNERS.forEach(([cx, cy]) => {
+              projVec.set(slot + cx * layout.cardW / 2, cy * layout.cardH / 2, 0);
+              cubeGroup.localToWorld(projVec);
+              const s2 = toScreen(projVec);
+              if (s2.x < x0) x0 = s2.x;
+              if (s2.y < y0) y0 = s2.y;
+              if (s2.x > x1) x1 = s2.x;
+              if (s2.y > y1) y1 = s2.y;
+            });
+            const w = x1 - x0, h = y1 - y0, cx = (x0 + x1) / 2;
+            card.style.left = `${x0}px`;
+            card.style.top = `${y0}px`;
+            card.style.width = `${w}px`;
+            card.style.height = `${h}px`;
+            card.style.setProperty('--cw', `${w}px`);
+
+            /* Dimmed while it is still ahead of you and brightening as it
+               arrives. The one sitting at the right-hand edge is the hint that
+               there is more to come; anything already off the left is spent. */
+            const ahead = smoothstep(mw * 0.58, mw * 0.94, cx);
+            const gone = 1 - smoothstep(-w * 0.5, w * 0.25, cx);
+            const vis = formP * (1 - gone) * (0.26 + 0.74 * (1 - ahead));
+            card.style.opacity = vis;
+            /* Hit-testing is decided on whether the card is actually on
+               screen, not on how brightly it is drawn. Tying it to `vis` meant
+               a card only became hoverable once it had brightened past a
+               threshold, so the ones sitting toward the right - the very ones
+               a reader reaches for first as they come in - stayed inert while
+               plainly visible. Anything not dimmed to near-nothing and not
+               past the left edge takes the pointer. */
+            const onScreen = cx > -w * 0.35 && cx < mw + w * 0.35;
+            card.style.pointerEvents = (onScreen && vis > 0.12) ? 'auto' : 'none';
+          });
+
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  initFeaturedCube();
+</script>
+
+<script src="./app.023c2624a2.js" defer></script>
+</body>
+</html>

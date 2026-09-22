@@ -1,0 +1,5 @@
+# ENLIVEN ELITE — https://enlivenelite.in
+User-agent: *
+Allow: /
+
+Sitemap: https://uk232002.github.io/enliven-elite/sitemap.xml

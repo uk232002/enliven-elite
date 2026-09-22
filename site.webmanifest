@@ -1,0 +1,28 @@
+{
+  "name": "ENLIVEN ELITE — Architecture & Interiors, Bengaluru",
+  "short_name": "Enliven Elite",
+  "description": "Bespoke architecture, interior design and construction studio in Bengaluru.",
+  "start_url": "/enliven-elite/",
+  "scope": "/enliven-elite/",
+  "display": "browser",
+  "background_color": "#050507",
+  "theme_color": "#050507",
+  "icons": [
+    {
+      "src": "/enliven-elite/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/enliven-elite/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/enliven-elite/icons/maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
