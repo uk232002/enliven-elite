@@ -5685,6 +5685,7 @@ const tl = gsap.timeline({
          open its column: it sat at 0.74 on the final frame. Off the real
          duration it cannot drift again. */
       const u = p * tl.duration();
+      placeCards(u);
       const ease = (x) => x * x * (3 - 2 * x);
       let sp = 0, sideNow = lastSide;
       for (const b of BEATS){
@@ -5992,11 +5993,35 @@ tl.fromTo(drinkState, { p:0 }, { p:1, duration:DRINK.out - DRINK.in, ease:'none'
    the desk it was drawn on, which is the point — so the desk stays lit. */
 
 /* -- snippet cards -------------------------------------------------------- */
-function cardIn(el, from, at, dur = 7){
-  tl.fromTo(el, { x:from, opacity:0 }, { x:0, opacity:1, duration:dur, ease:'power2.out' }, at);
+/* ON A PHONE THE CARD RIDES THE SCROLL. Below 900 there is no column to park
+   it in, and parked mid-screen it sat on the drawing for its whole beat. So
+   there it travels instead: up over the bottom edge, past, and out over the
+   top, at about the page's own scroll speed, centred on its beat. The slide
+   and fade below are the column layout's and collapse to nothing there. */
+const NARROW    = matchMedia('(max-width:900px)');
+const CARD_EL   = BEATS.map((_, i) => document.getElementById('card-' + (i + 1)));
+const CARD_Y    = CARD_EL.map(el => gsap.quickSetter(el, 'y', 'px'));
+const CARD_SPAN = 1.3 * UNITS_PER_SCREEN;   // units from the bottom edge to clear of the top
+function placeCards(u){
+  if (!NARROW.matches) return;
+  BEATS.forEach((b, i) => {
+    const t = Math.max(0, Math.min(1, (u - (b.in + b.out + HOLD) / 2) / CARD_SPAN + 0.5));
+    // +48: parked 24px past either edge, so the card's shadow clears it too.
+    CARD_Y[i]((0.5 - t) * (innerHeight + CARD_EL[i].offsetHeight + 48));
+  });
 }
+
+function cardIn(el, from, at, dur = 7){
+  tl.fromTo(el, { x:() => NARROW.matches ? 0 : from, opacity:() => NARROW.matches ? 1 : 0 },
+                { x:0, opacity:1, duration:dur, ease:'power2.out' }, at);
+}
+/* fromTo rather than to: a .to() re-reads its start from wherever the card
+   happens to be after an invalidate, and onResize invalidates - a card already
+   gone came back as "from gone to gone" and never showed again. */
 function cardOut(el, to, at, dur = 7){
-  tl.to(el, { x:to, opacity:0, duration:dur, ease:'power2.in' }, at);
+  tl.fromTo(el, { x:0, opacity:1 },
+                { x:() => NARROW.matches ? 0 : to, opacity:() => NARROW.matches ? 1 : 0,
+                  duration:dur, ease:'power2.in', immediateRender:false }, at);
 }
 
 /* Positions and directions come straight off BEATS above: a card enters from
@@ -6014,6 +6039,22 @@ cardIn ('#card-5',  70, 108);  cardOut('#card-5',  70, 114, 4);  // fig 05, from
 /* Fig 06 holds for its whole build now, the same way Fig 03 does. */
 cardIn ('#card-6', -70, 118);  cardOut('#card-6', -70, 143, 4);  // fig 06, from left
 cardIn ('#card-7',  70, 158);                                    // fig 07, from right, stays
+
+placeCards(0);   // below the fold until the first frame, which a parked host may not run yet
+/* And again whenever the frame changes size with the scene standing still -
+   which the host's opening does all the time, growing this from a band to
+   the full screen before the timeline moves at all. Placed off a stale
+   height, every card peeked up out of the bottom of the growing band. */
+addEventListener('resize', () => placeCards(tl.progress() * tl.duration()));
+/* Crossing 900 swaps layouts under a reader mid-section (a big phone turned
+   sideways). Run the whole timeline through once so every card lands in its
+   state for the new layout, not just the ones the next scroll happens to cross. */
+NARROW.addEventListener('change', () => {
+  const p = tl.progress();
+  if (!NARROW.matches) gsap.set(CARD_EL, { y:0 });
+  tl.invalidate().progress(0, true).progress(1, true).progress(p, true);
+  placeCards(p * tl.duration());
+});
 
 /* Pin the end. Positions above are written in units, and the band table below
    divides by the total — so the total has to be a number this file chooses,
@@ -6080,7 +6121,12 @@ const sketchMaterial = new THREE.ShaderMaterial({
   fragmentShader: /* glsl */`
     #include <packing>
     varying vec2 vUv;
-    uniform sampler2D tDiffuse, tNormal, tDepth;
+    uniform sampler2D tDiffuse, tNormal;
+    /* highp, or phones draw lines all over the hero. A sampler's default
+       precision is lowp, which desktop GPUs ignore and phone GPUs honour: the
+       depth comes back rounded to half precision, flat surfaces turn into
+       stepped contours, and the curvature test below inks every step. */
+    uniform highp sampler2D tDepth;
     uniform vec2  uTexel;
     uniform float uNear, uFar, uStrength;
     uniform float uDepthLo, uDepthHi, uNormLo, uNormHi, uInkMix, uWidth;
