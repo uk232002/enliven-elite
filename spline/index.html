@@ -2943,6 +2943,78 @@ function takeTime(u){
          (u - DRINK.in) / (DRINK.out - DRINK.in);
 }
 
+/* WHERE HE LOOKS. Through the whole held pose the take keeps his face square
+   to the desk, 39 deg down at the bare wood between the plan and the laptop -
+   on neither. So the head is aimed on top of the take: at the drawing while
+   the page is on the plan, across to the laptop screen as the camera pulls
+   back to the Overview, and on the screen from there on. The drink keeps the
+   take's own head (the rim is fitted to his lips), so the aim hands back to
+   it as he reaches and takes over again once the glass is down.
+
+   Neck and head only - turning the chest would carry both hands off the
+   pencil and the keys. The neck takes 40% of the turn, the head the rest. */
+const LOOK = {
+  plan:  new THREE.Vector3(PLAN.x + 0.06, PLAN.y, 0.28),  // the near half of the sheet, where his hand works
+  turn:  [40, 50],             // units: plan -> screen, the pull-back to the Overview
+  drink: [64, 70, 114, 124],   // aim out as he reaches for the glass, back once it is down
+  neck:  0.4,
+  eye:   new THREE.Vector3(0, 10.2, 11)   // between the eyes, head-local cm (the bone is scaled 0.01)
+};
+// Until refitScreen has measured the real lid.
+const LOOK_SCREEN = new THREE.Vector3(LAPTOP.x, LAPTOP.y + 0.12, LAPTOP.z + 0.10);
+const LOOK_UP = new THREE.Vector3(0, 1, 0), LOOK_Z = new THREE.Vector3(0, 0, 1);
+const LOOK_T = new THREE.Vector3(), LOOK_E = new THREE.Vector3();
+const LOOK_F = new THREE.Vector3(), LOOK_A = new THREE.Vector3();
+const LOOK_Q = new THREE.Quaternion(), LOOK_R = new THREE.Quaternion();
+const LOOK_QP = new THREE.Quaternion(), LOOK_QB = new THREE.Quaternion();
+const lookTake = [new THREE.Quaternion(), new THREE.Quaternion()];
+let archNeck = null, lookSaved = false;
+const smooth01 = (x) => { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+
+function headDir(){
+  return LOOK_F.copy(LOOK_Z).applyQuaternion(archHead.getWorldQuaternion(LOOK_QB));
+}
+// Yaw and pitch of the target as seen from between his eyes, right now.
+function lookAngles(){
+  LOOK_E.copy(LOOK.eye).applyMatrix4(archHead.matrixWorld);
+  LOOK_A.subVectors(LOOK_T, LOOK_E).normalize();
+  return [Math.atan2(LOOK_A.x, LOOK_A.z), Math.asin(LOOK_A.y)];
+}
+// The world rotation that swings direction f round to (yaw, pitch): about the
+// vertical first, then about the level axis square to the new heading, so the
+// head never rolls.
+function swing(f, yaw, pitch, out){
+  let dy = yaw - Math.atan2(f.x, f.z);
+  dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+  out.setFromAxisAngle(LOOK_UP, dy);
+  LOOK_A.set(Math.sin(yaw), 0, Math.cos(yaw)).cross(LOOK_UP).normalize();
+  return out.premultiply(LOOK_Q.setFromAxisAngle(LOOK_A, pitch - Math.asin(Math.max(-1, Math.min(1, f.y)))));
+}
+// Turns a bone about its own pivot by a world-space rotation.
+function turnBone(bone, q){
+  bone.parent.getWorldQuaternion(LOOK_QP);
+  bone.getWorldQuaternion(LOOK_QB).premultiply(q);
+  bone.quaternion.copy(LOOK_QP.invert().multiply(LOOK_QB));
+  bone.updateMatrixWorld(true);
+}
+function aimHead(u){
+  const [a, b, c, d] = LOOK.drink;
+  const w = 1 - smooth01((u - a) / (b - a)) + smooth01((u - c) / (d - c));
+  if (w < 1e-3) return;
+  LOOK_T.lerpVectors(LOOK.plan, SCREEN_CENTRE.lengthSq() ? SCREEN_CENTRE : LOOK_SCREEN,
+                     smooth01((u - LOOK.turn[0]) / (LOOK.turn[1] - LOOK.turn[0])));
+  const f = headDir(), yaw0 = Math.atan2(f.x, f.z), pitch0 = Math.asin(f.y);
+  // w of the way from where the take points his face to the target: the neck
+  // carries its share, then the head finishes from where the neck left it.
+  // Twice for the head, re-sighting each time, because turning it moves his
+  // eyes - one pass left the face 4-7 deg off what it was aimed at.
+  for (const [bone, share] of [[archNeck, LOOK.neck], [archHead, 1], [archHead, 1]]){
+    const [yaw, pitch] = lookAngles();
+    let dy = yaw - yaw0; dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+    turnBone(bone, swing(headDir(), yaw0 + dy * w * share, pitch0 + (pitch - pitch0) * w * share, LOOK_R));
+  }
+}
+
 /* THE CLIENTS TALK AS THE PAGE SCROLLS - forward only, at a talking pace.
    Not mapped to scroll POSITION the way his take is. His writing and drinking
    are beats that belong to places in the story; their conversation is not,
@@ -5163,6 +5235,10 @@ function install(key, model){
           archDur = Math.max(archDur, c.duration);
         }
         archMixer.setTime(0);
+        // For the head's aim - see LOOK.
+        archNeck = findBone(model, 'Neck');
+        archHead = findBone(model, 'Head');
+        if (!archNeck || !archHead) archNeck = null;
         console.info('[studio] desk take: %ss across %d clips (%s)',
           archDur.toFixed(2), clips.length, clips.map(c => c.name).join(', '));
       }
@@ -6321,7 +6397,20 @@ function frame(){
      chair and floor, and every contact in it was measured on the deformed mesh
      frame by frame before it was baked. So the beat is one line now: put the
      clip where the scroll is. */
-  if (archMixer) archMixer.setTime(takeTime(tl.progress() * tl.duration()));
+  if (archMixer){
+    const u = tl.progress() * tl.duration();
+    /* The aim writes over the take's neck and head, and the mixer skips any
+       write whose value has not changed - so at a still scroll position it
+       would leave last frame's aim standing and the next aim would stack on
+       top. Put the take's own values back first. */
+    if (lookSaved){ archNeck.quaternion.copy(lookTake[0]); archHead.quaternion.copy(lookTake[1]); }
+    archMixer.setTime(takeTime(u));
+    if (archNeck){
+      lookTake[0].copy(archNeck.quaternion); lookTake[1].copy(archHead.quaternion);
+      lookSaved = true;
+      aimHead(u);
+    }
+  }
   advanceTalk(tl.progress() * tl.duration(), dt);
 
 
