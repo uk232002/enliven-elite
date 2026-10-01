@@ -123,11 +123,12 @@
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin defer></script>
 
   <!-- Dark Architectural Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=11037e0509">
+  <link rel="stylesheet" href="styles.css?v=12e1c9179d">
 
   <!-- Cookie consent + analytics (loads nothing from Google until accepted) -->
   <script src="./consent.js?v=2befb8f297" defer></script>
   <script>window.__EE_STATIC_HOST = true;</script>
+  <script src="./chat-config.js"></script>
 </head>
 <body class="loading-active">
 
@@ -2447,6 +2448,10 @@
     // setTimeout, not requestAnimationFrame — see the matching note in
     // initNavBoxes above.
     if (!section || !stageEl || !mount) { setTimeout(initFeaturedCube, 50); return; }
+    // Below 900px the section is a swipe row (.proj-swipe) and there is no
+    // cube to draw - the same cut-off, and the same decide-once-at-load, as
+    // the nav boxes.
+    if (window.innerWidth < 900) return;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -3095,6 +3100,6 @@
   initFeaturedCube();
 </script>
 
-<script src="./app.023c2624a2.js" defer></script>
+<script src="./app.1550014669.js" defer></script>
 </body>
 </html>
