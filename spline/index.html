@@ -5884,8 +5884,15 @@ if (!EMBEDDED){
    takes its time, and the scroll simply queues up ahead of it. The cap is
    blended in and out over a shoulder rather than switched, because a cap that
    changes abruptly is itself a harsh scroll. */
-const RATE_OPEN  = 0.85;    // progress per second, ordinary scrolling
+/* 0.30, down from 0.85: at 0.85 a hard flick put the dive into the plan (14
+   units) on screen for a tenth of a second, which read as the camera being
+   thrown rather than moved. Normal scrolling stays well under it. */
+const RATE_OPEN  = 0.30;    // progress per second, ordinary scrolling
 const RATE_BUILD = 0.085;   // …while the shell is rising: about 2.6s for it
+/* And eased UP to the cap rather than starting at it: from rest the scene
+   takes this long to reach full speed, so a flick begins as a glide, not a
+   jolt. The settle at the far end is the exponential ease below. */
+const RATE_RAMP  = 0.25;    // seconds
 /* The build occupies timeline units 62..94 of 170, which after the ENTRY
    offset is this slice of the host's own progress. */
 const RATE_FROM = 0.24, RATE_TO = 0.50, RATE_SHOULDER = 0.05;
@@ -5898,16 +5905,21 @@ function rateCapAt(v){
   return RATE_OPEN + (RATE_BUILD - RATE_OPEN) * s;
 }
 
+let scrollVel = 0;   // progress per second, carried so the ramp is continuous
 function advanceScroll(dt){
   if (scrollValue < 0) scrollValue = scrollTarget;          // first frame: snap
   const d = Math.min(dt, 0.05);
-  const k = 1 - Math.pow(0.0016, d);
+  // 0.02 rather than 0.0016: a quarter-second settle instead of a sixth.
+  const k = 1 - Math.pow(0.02, d);
   let step = (scrollTarget - scrollValue) * k;
-  const cap = rateCapAt(scrollValue) * d;
-  if (step >  cap) step =  cap;
-  if (step < -cap) step = -cap;
+  const cap = rateCapAt(scrollValue);
+  const carried = Math.sign(step) === Math.sign(scrollVel) ? Math.abs(scrollVel) : 0;
+  const lim = Math.min(cap, carried + cap / RATE_RAMP * d) * d;
+  if (step >  lim) step =  lim;
+  if (step < -lim) step = -lim;
+  scrollVel = d > 0 ? step / d : 0;
   scrollValue += step;
-  if (Math.abs(scrollTarget - scrollValue) < 1e-5) scrollValue = scrollTarget;
+  if (Math.abs(scrollTarget - scrollValue) < 1e-5){ scrollValue = scrollTarget; scrollVel = 0; }
   tl.progress(ENTRY + scrollValue * (1 - ENTRY));
 }
 
