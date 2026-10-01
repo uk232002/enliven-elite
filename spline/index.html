@@ -673,7 +673,7 @@ const DESK = { w:1.68, d:1.75, top:0.75 };
    face. */
 const GLASS_R = 0.028;
 
-// Drawing sheet lying on the desk. PORTRAIT NOW, and smaller: floor-plan.jpg
+// Drawing sheet lying on the desk. PORTRAIT NOW, and smaller: floor-plan.png
 // is 849 x 921, where the sheet used to be landscape, so keeping the old
 // 1.02 x 0.66 would have squashed the plan by a third across its width. The
 // ratio here is the image's own (0.9218); the overall size is down to about
@@ -687,7 +687,7 @@ const GLASS_R = 0.028;
 
    z = 0.36 centres the paper on the top with its near edge at 0.13, a
    fingertip past where the architect can reach. */
-// floor-plan.jpg is 849 x 921; the sheet is cut to this so it is never
+// floor-plan.png is 849 x 921; the sheet is cut to this so it is never
 // stretched. Read once here rather than left implicit in the numbers below.
 const PLAN_ASPECT = 849 / 921;
 const PLAN = {
@@ -930,15 +930,12 @@ const TIP = new THREE.Vector3(
    (0.60, -0.16) all four corners under it raycast to the FLOOR. Everything on
    this desk was placed for the old procedural top, which was a full rectangle;
    the cabin's is an L that starts at z = +0.11. This sits it on the main top
-   to the right of the paper, clear of it in x. */
-const LAPTOP   = { x:0.30, y:DESK.top + 0.007, z:0.30, w:0.30, d:0.21, screenH:0.20, tilt:0.28 };
-
-/* plan UV → world helpers ------------------------------------------------- */
-// Kept at the same fraction of the sheet as before (0.90 of each side), so the
-// margin reads the same at the new size.
-const PLAN_AREA = { w:0.582, d:0.636 };          // drawing area inside the sheet margin
-const planX = u => PLAN.x + (u - 0.5) * PLAN_AREA.w;
-const planZ = v => PLAN.z + (v - 0.5) * PLAN_AREA.d;
+   to the right of the paper, clear of it in x.
+   Pulled 4 cm toward him (was 0.30, 0.30) so his squared-up left arm rests
+   on the keys with the elbow bent, not reached out straight, and 2 cm out so
+   the hand holding the glass clears its corner. The baked take's resting hand
+   is solved against this spot - move one, re-solve the other. */
+const LAPTOP   = { x:0.32, y:DESK.top + 0.007, z:0.26, w:0.30, d:0.21, screenH:0.20, tilt:0.28 };
 
 /* ============================================================================
    1 · THE HOUSE PLAN
@@ -1064,6 +1061,24 @@ const ASSETS = {
        his hands ride 63 mm above the paper where 40 reads as resting on it. */
     /* At the origin, at scale 1: the take is already in this scene's world
        coordinates, measured against the cabin it was authored in. */
+    fit:null, pos:[0, 0, 0], rotY:0, anchor:'none', animated:true
+  },
+
+  /* THE CLIENTS, on the two chairs across the desk from him - the room is
+     called a consultation, and until now it was one person talking to two
+     empty seats. Mixamo's "Sitting Talking" on Ch22 (left chair) and Ch01
+     (right chair), baked the way the architect was: in world position against
+     cabin.gltf, so nothing is fitted here. The bake seats each on the chair's
+     own sling, snaps a resting hand's lowest vertex onto the 0.750 top (the
+     sheet's 0.752 where it lies under one) while keeping every gesture's lift,
+     and keeps the hands clear of the house model, the side-on monitor, the
+     window wall and each other. See TALK below for how they are played. */
+  clientWoman: {
+    url:'client-woman.glb', tint:0xD1C2B3,
+    fit:null, pos:[0, 0, 0], rotY:0, anchor:'none', animated:true
+  },
+  clientMan: {
+    url:'client-man.glb', tint:0xC0C1B5,
     fit:null, pos:[0, 0, 0], rotY:0, anchor:'none', animated:true
   },
 
@@ -1715,7 +1730,7 @@ function contactShadow(w, d, x, z, opacity = 0.3){
  * The plan printed on the sheet.
  *
  * Two passes. The LAYOUT-driven drawing below runs first and synchronously, so
- * the sheet is never blank and stays correct if floor-plan.jpg is missing —
+ * the sheet is never blank and stays correct if floor-plan.png is missing —
  * the same arrangement as the laptop screen. The real drawing then repaints
  * over it on load. LAYOUT is now only the fallback: the massing that stands up
  * in Step 5 comes from modern_residential_building.glb, not from these walls.
@@ -1733,7 +1748,9 @@ function makeFloorPlanTexture(){
   const X = u => ax + u * aw;
   const Y = v => ay + v * ah;
 
-  g.fillStyle = '#FFFDF8'; g.fillRect(0, 0, W, H);
+  /* NO PAPER. The plan is drawn straight onto the desk, so the ground stays
+     transparent and only the ink is painted. */
+  g.clearRect(0, 0, W, H);
 
   // faint construction grid
   g.strokeStyle = 'rgba(43,37,35,.055)'; g.lineWidth = 1;
@@ -1779,15 +1796,19 @@ function makeFloorPlanTexture(){
     }
   });
 
-  // window symbols punched through the exterior wall
+  // window symbols punched through the exterior wall - cut out of the ink,
+  // since there is no paper colour left to paint the gap with
   LAYOUT.windows.forEach(w => {
-    g.strokeStyle = '#FFFDF8'; g.lineWidth = WT + 2;
     g.beginPath();
     if (w.side === 'n'){ g.moveTo(X(w.from), Y(0)); g.lineTo(X(w.to), Y(0)); }
     if (w.side === 's'){ g.moveTo(X(w.from), Y(1)); g.lineTo(X(w.to), Y(1)); }
     if (w.side === 'w'){ g.moveTo(X(0), Y(w.from)); g.lineTo(X(0), Y(w.to)); }
     if (w.side === 'e'){ g.moveTo(X(1), Y(w.from)); g.lineTo(X(1), Y(w.to)); }
+    g.save();
+    g.globalCompositeOperation = 'destination-out';
+    g.lineWidth = WT + 2;
     g.stroke();
+    g.restore();
     g.strokeStyle = '#B76E79'; g.lineWidth = 2.4;
     g.stroke();
   });
@@ -1806,7 +1827,7 @@ function makeFloorPlanTexture(){
     g.beginPath(); g.moveTo(X(a), dimY); g.lineTo(X(b), dimY); g.stroke();
     tick(X(a), dimY, false); tick(X(b), dimY, false);
     g.textAlign = 'center';
-    g.fillStyle = '#FFFDF8'; g.fillRect((X(a) + X(b)) / 2 - 32, dimY - 11, 64, 20);
+    g.clearRect((X(a) + X(b)) / 2 - 32, dimY - 11, 64, 20);
     g.fillStyle = '#B76E79'; g.fillText(txt, (X(a) + X(b)) / 2, dimY + 5);
   });
   const dimX = ax - 30;
@@ -1815,7 +1836,7 @@ function makeFloorPlanTexture(){
     tick(dimX, Y(a), true); tick(dimX, Y(b), true);
     g.save();
     g.translate(dimX, (Y(a) + Y(b)) / 2); g.rotate(-Math.PI / 2);
-    g.fillStyle = '#FFFDF8'; g.fillRect(-32, -11, 64, 20);
+    g.clearRect(-32, -11, 64, 20);
     g.fillStyle = '#B76E79'; g.textAlign = 'center'; g.fillText(txt, 0, 5);
     g.restore();
   });
@@ -1858,20 +1879,19 @@ function makeFloorPlanTexture(){
 
   /* THE REAL DRAWING GOES ON TOP, re-inked into the scene's two colours.
 
-     Measuring it by LUMINANCE is the obvious move and it is wrong here. The
-     export is a CAD drawing on white — cyan walls, red dimensions, green
-     setbacks, yellow swings — and cyan carries 0.79 of the luminance, yellow
-     0.93. Half the drawing is nearly as bright as the paper it sits on, so a
-     luminance ramp would wash those lines out completely and leave only the
-     red ones.
+     floor-plan.png is the CAD export with its paper, the grey site block that
+     wrapped two sides of it and the image frame all taken out: the drawing
+     alone on a transparent ground, at the JPEG's own size and orientation.
 
-     What actually separates a line from the ground is saturation: the paper is
-     the one thing here with no colour in it. The MINIMUM channel measures
-     exactly that — 255 on white, 0 on a saturated line of any hue, and
-     partway for the grey site blocks. One minus it is the ink's opacity over
-     paper, and the colour drops out for free. */
+     Its alpha already IS the ink's opacity. It was measured off the JPEG by the
+     MINIMUM channel rather than by luminance, because the export is cyan walls,
+     red dimensions, green setbacks and yellow swings on white, and cyan and
+     yellow are nearly as bright as the paper they sat on - a luminance ramp
+     would have lost half the drawing. So all that is left here is to swap every
+     colour for ink and keep that alpha; the desk shows through the rest. */
   const plan = new Image();
   plan.onload = () => {
+    g.clearRect(0, 0, W, H);                  // the fallback goes entirely
     g.globalCompositeOperation = 'source-over';
     g.drawImage(plan, 0, 0, W, H);
 
@@ -1879,22 +1899,16 @@ function makeFloorPlanTexture(){
     try { px = g.getImageData(0, 0, W, H); }
     catch (e) { return; }                     // tainted: keep the drawn plan
     const d = px.data;
-    const PR = 0xFB, PG = 0xF9, PB = 0xF5;    // paper
     const IR = 0x2B, IG = 0x25, IB = 0x23;    // ink
     for (let i = 0; i < d.length; i += 4){
-      const m = Math.min(d[i], d[i + 1], d[i + 2]) / 255;
-      // Small white-point cut: JPEG leaves the background a few counts under
-      // 255, and without this the whole sheet comes back faintly grubby.
-      const a = Math.max(0, (1 - m - 0.05) / 0.95);
-      d[i]     = PR + (IR - PR) * a;
-      d[i + 1] = PG + (IG - PG) * a;
-      d[i + 2] = PB + (IB - PB) * a;
-      d[i + 3] = 255;
+      // The transparent texels carry the ink colour too, so filtering between
+      // a line and bare desk never blends a stray colour into the edge.
+      d[i] = IR; d[i + 1] = IG; d[i + 2] = IB;
     }
     g.putImageData(px, 0, 0);
     t.needsUpdate = true;
   };
-  plan.src = 'floor-plan.jpg';
+  plan.src = 'floor-plan.png';
 
   return t;
 }
@@ -2590,23 +2604,32 @@ buildRoom();
 /* ============================================================================
    8 · DESK, SHEET, PROPS
    ========================================================================== */
-/** The drawing sheet + its printed plan. Always procedural. */
+/** The floor plan, drawn straight onto the desk. Always procedural. */
+/* NO SHEET UNDER IT. This was a cream page with its own outline, and with the
+   drawing's grey site block printed round two sides it read as a mat lying on
+   the desk rather than a drawing. Now only the ink exists: the plane is
+   transparent wherever floor-plan.png is, so the desk shows through between
+   the lines. Same plane, same place, same orientation - the building still
+   stands up out of it and the pencil point still meets it.
+
+   ON LINE_LAYER, like the logo planes. The edge finder renders every other
+   layer through one opaque override material, so this plane would reach it as
+   a solid slab 1.5 mm proud of the desk and come back with a pencil rectangle
+   drawn round it. There it still draws in the final image; the edge finder
+   simply never sees it. */
 function buildSheet(){
   const g = new THREE.Group();
 
   const sheet = new THREE.Mesh(
     new THREE.PlaneGeometry(PLAN.w, PLAN.d),
-    paperMat(0xFFFFFF, { map:makeFloorPlanTexture(), hatch:0, flat:true })
+    paperMat(0xFFFFFF, { map:makeFloorPlanTexture(), hatch:0, flat:true,
+                         transparent:true, depthWrite:false })
   );
   sheet.rotation.x = -Math.PI / 2;
   sheet.position.set(PLAN.x, PLAN.y, PLAN.z);
+  sheet.layers.set(LINE_LAYER);
+  sheet.renderOrder = -1;          // first of the see-through things over the desk
   g.add(sheet);
-
-  // sheet edge + a lifted corner's shadow
-  const outline = edgesOf(new THREE.PlaneGeometry(PLAN.w, PLAN.d), { color:INK, opacity:0.45, amp:1.0 });
-  outline.rotation.x = -Math.PI / 2;
-  outline.position.set(PLAN.x, PLAN.y + 0.0005, PLAN.z);
-  g.add(outline);
 
   return g;
 }
@@ -2920,6 +2943,74 @@ function takeTime(u){
          (u - DRINK.in) / (DRINK.out - DRINK.in);
 }
 
+/* THE CLIENTS TALK AS THE PAGE SCROLLS - forward only, at a talking pace.
+   Not mapped to scroll POSITION the way his take is. His writing and drinking
+   are beats that belong to places in the story; their conversation is not,
+   and scrubbed by position it rewinds when the reader scrolls back, which
+   reads as tape, not people. So scroll TRAVEL drives one clock: a timeline
+   unit of travel is RATE seconds of take, never more than MAX seconds per
+   real second however hard the wheel is flicked. The page's own scroll
+   easing then gives it a natural stop - it slows with the scroll rather than
+   freezing mid-word. Both takes are Mixamo loops (first and last frame 1 mm
+   apart), so the clock simply runs on and LoopRepeat wraps it.
+
+   The offsets are cut to when each is on screen (see the fade below): she is
+   mid-sentence, a hand lifted, in the opening frame, and listening by the
+   time the camera comes back out to the Overview, where he is in the
+   foreground and takes his widest gesture. One speaks, then the other. */
+const TALK = {
+  RATE: 0.15, MAX: 1.4,
+  clock: 0, lastU: null,
+  offset: { clientWoman: 7.3, clientMan: 14.0 },
+  mixers: {},
+  /* THE CAMERA WAS ROUTED THROUGH THEIR SEATS. Every stop was framed on an
+     empty room, and several paths now pass a head or a hand at arm's length:
+     the dive to the plan skims her hair at 0.28 m, the pull-back to the
+     Overview passes 0.21 m behind his head, and from the Massing stop on the
+     lens hangs over her chair, her hands across the bottom of every shot of
+     the model. So a client dissolves while the lens is inside their space
+     and returns once it has left. Hysteresis (gone under the first number,
+     back over the second) so a stop that sits near the line never shows a
+     ghost; quicker out than in, so a head is gone before it can fill the
+     frame. Her band sits higher: sat back in her chair she is 0.42 m under
+     the Massing and Facade lenses, so a 0.42 line let the pointer's parallax
+     decide whether her head was in the shot. */
+  BAND: { clientWoman: [0.46, 0.56], clientMan: [0.42, 0.52] },
+  OUT: 0.07, IN: 0.14,
+  fade: {}
+};
+function advanceTalk(u, dt){
+  if (TALK.lastU === null) TALK.lastU = u;
+  const slow = REDUCE ? 0.5 : 1;
+  TALK.clock += Math.min(Math.abs(u - TALK.lastU) * TALK.RATE, dt * TALK.MAX) * slow;
+  TALK.lastU = u;
+  for (const k in TALK.mixers) TALK.mixers[k].setTime(TALK.offset[k] + TALK.clock);
+}
+const TALK_V = new THREE.Vector3();
+function fadeClients(dt){
+  const cp = camera.position;
+  for (const k in TALK.fade){
+    const f = TALK.fade[k], [hide, show] = TALK.BAND[k];
+    let d = Infinity;
+    for (const b of f.bones) d = Math.min(d, b.getWorldPosition(TALK_V).distanceTo(cp));
+    // first frame: only clear of the band counts, so a reload mid-page never starts on a ghost
+    if (f.vis === undefined){ f.shown = d > show; f.vis = +f.shown; }
+    else if (f.shown && d < hide) f.shown = false;
+    else if (!f.shown && d > show) f.shown = true;
+    const to = +f.shown;
+    f.vis += (to - f.vis) * (1 - Math.exp(-dt / (to < f.vis ? TALK.OUT : TALK.IN)));
+    // settled means settled: a hashed 0.99 still sprinkles the figure with holes
+    if (Math.abs(to - f.vis) < 0.005) f.vis = to;
+    // and never solid with the lens this close, however fast it got here
+    let o = Math.min(f.vis, THREE.MathUtils.smoothstep(d, 0.26, 0.40));
+    if (o > 0.995) o = 1;
+    if (o === f.o) continue;
+    f.o = o;
+    for (const m of f.mats) m.opacity = o;
+    f.holder.visible = o > 0.004;
+  }
+}
+
 /* The closed hand: every finger joint that holds the pencil, and the two
    bones whose midpoint the shaft is pinched at. */
 let archGripPose = [], archPinchA = null, archPinchB = null;
@@ -3219,21 +3310,9 @@ function buildProps(){
   rule.rotation.y = -0.22;
   g.add(rule);
 
-  // blue redline marks scattered on the sheet, as if just annotated
-  const marks = [];
-  [[0.68, 0.30], [0.72, 0.34], [0.24, 0.62], [0.28, 0.66]].forEach(([u, v], i) => {
-    if (i % 2) return;
-    marks.push(
-      new THREE.Vector3(planX(u), PLAN.y + 0.0018, planZ(v)),
-      new THREE.Vector3(planX(u + 0.06), PLAN.y + 0.0018, planZ(v + 0.05))
-    );
-  });
-  const markLines = new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(marks),
-    new THREE.LineBasicMaterial({ color:BLUE, transparent:true, opacity:0.75, depthWrite:false })
-  );
-  markLines.layers.set(LINE_LAYER);
-  g.add(markLines);
+  /* The two rose "just annotated" strokes that sat on the sheet are gone with
+     it: laid over the plan inked onto the desk, one cut straight across the
+     drawn car and neither belonged to the drawing. */
 
   return g;
 }
@@ -3916,11 +3995,6 @@ function fitHouse(){
     const need = Math.max(spanZ * MARGIN, spanX * MARGIN / PLAN_ASPECT);
     const sz = need / PLAN.d, sx = need * PLAN_ASPECT / PLAN.w;
     sheetGroup.scale.set(sx, 1, sz);
-    /* The outline is the building's own plan, so it takes the span untouched —
-       but on its LOCAL y, not z. This one is a plane lying in XY that has been
-       rotated flat, and scale is applied before rotation, so its local y is
-       what ends up running along world z. */
-    footprint.scale.set(spanX, spanZ, 1);
     /* AND SHIFTED BACK. Scaling a group scales where its children SIT as well
        as how big they are: the sheet is positioned at PLAN.x inside this
        group, so at 0.55 it slid off the building's centre. */
@@ -3975,17 +4049,11 @@ function applyFade(list, factor){
   });
 }
 
-/* The footprint the building will stand on, left drawn on the sheet
-   throughout. Built at 1 x 1 and scaled to the real thing by fitHouse — it
-   used to be a hard-coded 0.34 x 0.24 against a house that is 0.33 x 0.43, so
-   it drew a rectangle two thirds the depth of the building standing in it,
-   which is most of what made the model look like it was hovering beside a
-   plan rather than standing on one. */
-const footprint = edgesOf(new THREE.PlaneGeometry(1, 1),
-  { color:BLUE, opacity:0.55, amp:1.0 });
-footprint.rotation.x = -Math.PI / 2;
-footprint.position.set(BUILDING.x, BUILDING.y + 0.0008, BUILDING.z);
-scene.add(footprint);
+/* THE FOOTPRINT OUTLINE IS GONE. A rose rectangle the size of the building
+   was drawn round the plan so the model would read as standing on it. With the
+   sheet gone and the plan inked straight onto the desk, that rectangle was the
+   only thing left framing the drawing, and it read as the edge of a page. The
+   building now stands up out of the plan's own ink. */
 
 /* THE SURVEY LASER IS GONE. A scan line rode the top of the tower, four corner
    uprights drew themselves up with it and a ground ring pulsed on the sheet -
@@ -5101,6 +5169,30 @@ function install(key, model){
       model.updateMatrixWorld(true);
     }
 
+    // The clients: one looping clip each, set from the talk clock every frame.
+    if (key in TALK.offset){
+      const clips = model.animations || [];
+      if (!clips.length){
+        console.error('[studio] ' + cfg.url + ' carries no animation - re-export the bake.');
+      } else {
+        const mixer = new THREE.AnimationMixer(model);
+        for (const c of clips) mixer.clipAction(c).play();
+        mixer.setTime(TALK.offset[key] + TALK.clock);
+        TALK.mixers[key] = mixer;
+      }
+      /* Dissolved, not blended: alphaHash keeps the depth write, so a figure
+         half way out still sorts against itself and the sketch pass keeps
+         its outline, where a transparent body shows its arm through its chest. */
+      const mats = [], bones = [];
+      model.traverse(n => {
+        if (n.isMesh) (Array.isArray(n.material) ? n.material : [n.material]).forEach(m => {
+          m.alphaHash = true; m.needsUpdate = true; mats.push(m);
+        });
+        if (n.isBone && /(Head|Neck|Spine2|Shoulder|ForeArm|Hand)$/.test(n.name)) bones.push(n);
+      });
+      TALK.fade[key] = { mats, bones, holder: slot.holder };
+    }
+
 
     if (key === 'cabin'){
       /* The two set squares standing on the desk come out. They are the only
@@ -5175,7 +5267,10 @@ function install(key, model){
              Building the world matrix by hand — translate to the centre,
              rotate, translate back, then express the result in the parent's
              frame — is exact whatever the chain above it happens to carry. */
-          const turn = Math.PI * 0.5;               // a quarter turn, the other way
+          /* 59.1 deg, not a quarter turn: the display's long axis lies at 59.1
+             deg in plan to begin with, so this stands it square to the window
+             wall, still facing into the room. */
+          const turn = 1.0313;
           const c = mb.getCenter(new THREE.Vector3());
           const target = new THREE.Matrix4()
             .makeTranslation(c.x, c.y, c.z)
@@ -5185,24 +5280,47 @@ function install(key, model){
           const local = new THREE.Matrix4().copy(mon.parent.matrixWorld).invert()
             .multiply(target);
           local.decompose(mon.position, mon.quaternion, mon.scale);
-          /* And set back off the working edge. In the parent's units, because
-             that is what position is written in — this chain carries a 0.001
-             scale, so 0.14 m of world is 140 of these.
+          /* Then slid, in the parent's units, because that is what position is
+             written in - this chain carries a 0.001 scale.
 
-             0.24 back and 0.05 across, not 0.14 back. Turned side-on it stands
-             on a diagonal, and at 0.14 its near end came to z 0.376 - in front
-             of the laptop lid, which leans back to 0.452 at its top edge - so
-             the two occupied the same space, and from the CAD stop the monitor's
-             corner cut across the top of the laptop screen. This stands it 2.4
-             cm clear behind the lid. Its foot stays on the worktop (the top runs
-             to z 0.88 here) and nothing else in the cabin is behind it. */
-          const back = new THREE.Vector3(0.05, 0, 0.24);
+             MOVED TO THE WINDOW END (2026-09-30). Diagonal across the middle of
+             the client half, it stood right in front of the right-hand client:
+             his arm had to reach round the screen to rest on the desk, and
+             from the Overview it looked as if his hand went through it. It now
+             stands in the corner by the window, foot 7 mm off the desk's end
+             and screen 2.8 cm past the books - measured off its own box after
+             the turn, so no offset here is a guess. */
+          scene.updateMatrixWorld(true);
+          let imac = null;
+          mon.traverse(n => { if (!imac && /^Newest/.test(n.name || '')) imac = n; });
+          const ib = new THREE.Box3().setFromObject(imac || mon);
+          const back = new THREE.Vector3(0.83 - ib.max.x, 0, 0.42 - ib.min.z);
           const inv3 = new THREE.Matrix3().setFromMatrix4(
             new THREE.Matrix4().copy(mon.parent.matrixWorld).invert());
           mon.position.add(back.applyMatrix3(inv3));
           mon.updateMatrixWorld(true);
+          /* The mouse is in this group too, so the turn swung it off the desk:
+             it hung in the air at z 1.0, 0.77 up, over the right-hand client's
+             seat - where the man now sits. Its old spot is under the
+             architect's resting hand, so it goes rather than going back. */
+          mon.traverse(n => { if (/^Mouse/.test(n.name || '')) n.visible = false; });
           console.info('[studio] monitor turned', +(turn * 180 / Math.PI).toFixed(0), 'deg in place');
         }
+      }
+
+      /* THE RIGHT-HAND CLIENT'S CHAIR, 10 cm back and 4.5 cm toward the other
+         (2026-09-30), so the man sits back off the desk rather than hunched
+         into it. 4.5 cm is all the room there is sideways: its armrest then
+         clears the woman's chair by 4 mm. Moved in world space the same way as
+         the monitor, through the parent's inverse, for the same 0.001 scale. */
+      let chairR = null;
+      model.traverse(n => { if (!chairR && n.name === 'Cadeira+escritório_1') chairR = n; });
+      if (chairR && chairR.parent){
+        scene.updateMatrixWorld(true);
+        const inv3 = new THREE.Matrix3().setFromMatrix4(
+          new THREE.Matrix4().copy(chairR.parent.matrixWorld).invert());
+        chairR.position.add(new THREE.Vector3(-0.045, 0, 0.10).applyMatrix3(inv3));
+        chairR.updateMatrixWorld(true);
       }
 
       console.info('[studio] set squares removed:', cut);
@@ -6158,6 +6276,7 @@ function frame(){
      frame by frame before it was baked. So the beat is one line now: put the
      clip where the scroll is. */
   if (archMixer) archMixer.setTime(takeTime(tl.progress() * tl.duration()));
+  advanceTalk(tl.progress() * tl.duration(), dt);
 
 
   camTarget.set(cam.tx, cam.ty, cam.tz);
@@ -6177,6 +6296,7 @@ function frame(){
 
   camera.position.set(cam.x + parallax.x, cam.y + parallax.y, cam.z + parallax.z);
   camera.lookAt(camTarget);
+  fadeClients(dt);
 
   // A scale.y of 0 collapses every wall, slab and roof into one plane sitting a
   // millimetre above the sheet, which hides the very drawing Step 2 zooms into.
@@ -6353,7 +6473,6 @@ function frame(){
     fadeBacklitLogo(sOut);
     const studioOn = sOut > 0.001;
     studioGroup.visible = studioOn;
-    footprint.visible   = studioOn;
     roomGroup.visible   = studioOn;
     cadScreen.visible   = studioOn;
     livingRoomGroup.visible = false;   // the walkthrough world is retired
@@ -6429,7 +6548,7 @@ window.__studio = {
   get drinkT0(){ return drinkT0; }, get drinkT1(){ return drinkT1; },
   get drinkWarp(){ return drinkWarp; }, 
   lensState, studioOut, interiorIn, sunState, PANE,
-  slots, ASSETS, frame, tl,
+  slots, ASSETS, frame, tl, TALK,
   sketch: sketchMaterial, renderer, hatchGain, shaderTime, sun,
   toon: { paper:toonPaper, deep:toonDeep, edge0:toonEdge0, edge1:toonEdge1 },
   seek(p){
@@ -6439,6 +6558,109 @@ window.__studio = {
     return { stop:STOPS.map(s => s.name), pos:[cam.x, cam.y, cam.z], target:[cam.tx, cam.ty, cam.tz] };
   }
 };
+
+/* ============================================================================
+   16 · MEASURE OVERLAY — only with ?measure in the address
+   ----------------------------------------------------------------------------
+   A check on the architect's posture, drawn over the sketch in real units
+   (1 unit = 1 m) and re-measured every frame from the skinned mesh the page
+   draws: seated torso height (the chair cushion to the top of the shoulder),
+   each arm's length along the posed arm (shoulder top > elbow > wrist > middle
+   fingertip), the spine line, and light guides round the torso and shoulders.
+   Visitors never see it; nothing here runs without the flag.
+   ========================================================================== */
+if (new URLSearchParams(location.search).has('measure')){
+  const SEAT_Y = 0.437;                  // the cushion under his pelvis (raycast on cabin.gltf)
+  const ov = document.createElement('canvas');
+  ov.style.cssText = 'position:absolute;top:50%;left:50%;translate:-50% -50%;width:100vw;height:100vh;pointer-events:none;z-index:2';
+  canvas.after(ov);
+  const g = ov.getContext('2d');
+  const B = {}, near = {};
+  let suit = null;
+  const pv = new THREE.Vector3();
+  const pos = n => B[n].getWorldPosition(new THREE.Vector3());
+  function ready(){
+    const arch = slots.architect && slots.architect.node;
+    if (!arch) return false;
+    if (!suit){
+      arch.traverse(o => { if (o.isBone) B[o.name.replace('mixamorig7', '')] = o; if (o.name === 'Ch33_Suit') suit = o; });
+      if (!suit || !B.LeftArm) return false;
+      // suit vertices round each shoulder, found once; the top of the shoulder is read from them every frame
+      for (const s of ['Left', 'Right']){
+        const J = pos(s + 'Arm'), list = [];
+        for (let i = 0; i < suit.geometry.attributes.position.count; i++){
+          suit.getVertexPosition(i, pv).applyMatrix4(suit.matrixWorld);
+          if (pv.distanceTo(J) < 0.10) list.push(i);
+        }
+        near[s] = list;
+      }
+    }
+    return true;
+  }
+  function shoulderTop(s){
+    const J = pos(s + 'Arm');
+    let best = null;
+    for (const i of near[s]){
+      suit.getVertexPosition(i, pv).applyMatrix4(suit.matrixWorld);
+      if (Math.hypot(pv.x - J.x, pv.z - J.z) < 0.035 && (!best || pv.y > best.y)) best = pv.clone();
+    }
+    return best || J;
+  }
+  function measureArm(s){
+    const top = shoulderTop(s), E = pos(s + 'ForeArm'), W = pos(s + 'Hand');
+    const tip = [1, 2, 3, 4].map(k => pos(s + 'HandMiddle' + k));
+    let len = top.distanceTo(E) + E.distanceTo(W) + W.distanceTo(tip[0]);
+    for (let k = 0; k < 3; k++) len += tip[k].distanceTo(tip[k + 1]);
+    return { top, E, W, tip: tip[3], len };
+  }
+  const px = v => { pv.copy(v).project(camera); return [(pv.x + 1) / 2 * ov.width, (1 - pv.y) / 2 * ov.height, pv.z < 1]; };
+  function line(pts, color, width, dash){
+    const q = pts.map(px); if (q.some(p => !p[2])) return;
+    g.strokeStyle = color; g.lineWidth = width; g.setLineDash(dash || []);
+    g.beginPath(); q.forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])); g.stroke(); g.setLineDash([]);
+  }
+  function label(text, at, dx, dy){
+    const p = px(at); if (!p[2]) return;
+    const k = ov.width / 1917;               // device pixels per CSS pixel of a 1917-wide page
+    g.font = '600 ' + Math.round(15 * k) + 'px ui-monospace, Menlo, Consolas, monospace';
+    const w = g.measureText(text).width, h = 22 * k, x = p[0] + dx * k, y = p[1] + dy * k;
+    g.fillStyle = 'rgba(250,248,243,0.92)'; g.fillRect(x - 6 * k, y - h + 4 * k, w + 12 * k, h + 2 * k);
+    g.strokeStyle = 'rgba(58,51,47,0.55)'; g.lineWidth = 1; g.strokeRect(x - 6 * k, y - h + 4 * k, w + 12 * k, h + 2 * k);
+    g.fillStyle = '#3a332f'; g.fillText(text, x, y);
+  }
+  function draw(){
+    const src = renderer.domElement;
+    if (ov.width !== src.width || ov.height !== src.height){ ov.width = src.width; ov.height = src.height; }
+    g.clearRect(0, 0, ov.width, ov.height);
+    if (!ready() || !studioGroup.visible) return;
+    const L = measureArm('Left'), R = measureArm('Right');
+    const hipL = pos('LeftUpLeg'), hipR = pos('RightUpLeg');
+    const topY = (L.top.y + R.top.y) / 2;
+    const guide = 'rgba(120,116,110,0.55)', ink = 'rgba(58,51,47,0.9)';
+    // guides: torso outline, shoulder line, spine
+    line([hipL, hipR, R.top, L.top, hipL], guide, 1.4, [7, 5]);
+    const sh = R.top.clone().sub(L.top).multiplyScalar(0.25);
+    line([L.top.clone().sub(sh), R.top.clone().add(sh)], guide, 1.2, [3, 4]);
+    line(['Hips', 'Spine', 'Spine1', 'Spine2', 'Neck', 'Head'].map(pos), guide, 1.6);
+    // torso height: a dimension line off his left side (clear of the drawing), seat to shoulder top
+    const side = L.top.clone().sub(R.top).setY(0).normalize().multiplyScalar(0.2);
+    const base = hipL.clone().add(side); base.y = SEAT_Y;
+    const top = base.clone(); top.y = topY;
+    const tick = side.clone().normalize().multiplyScalar(0.03);
+    line([base, top], ink, 1.6); line([base.clone().sub(tick), base.clone().add(tick)], ink, 1.6); line([top.clone().sub(tick), top.clone().add(tick)], ink, 1.6);
+    label('Torso Height: ' + (topY - SEAT_Y).toFixed(2) + 'm', top, 12, 6);
+    // arm lengths along each posed arm
+    for (const [A, dx, dy] of [[L, 14, 30], [R, -190, -8]]){
+      line([A.top, A.E, A.W, A.tip], ink, 1.5, [6, 3]);
+      label('Arm Length: ' + A.len.toFixed(2) + 'm', A.E, dx, dy);
+    }
+  }
+  renderer.setAnimationLoop(() => { frame(); draw(); });
+  const seek = window.__studio.seek;
+  window.__studio.seek = p => { const r = seek(p); draw(); return r; };
+  window.__studio.measure = () => ready() && { torso: +((measureArm('Left').top.y + measureArm('Right').top.y) / 2 - SEAT_Y).toFixed(3),
+    armLeft: +measureArm('Left').len.toFixed(3), armRight: +measureArm('Right').len.toFixed(3) };
+}
 </script>
 
 </body>
